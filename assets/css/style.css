@@ -535,7 +535,7 @@ p {
     height: 280px;
     background-size: contain;
     background-repeat: no-repeat;
-    opacity: 0.05;
+    opacity: 0.9;
     pointer-events: none;
     z-index: 1;
 }
@@ -544,14 +544,15 @@ p {
     top: 5%;
     left: -50px;
     transform: rotate(35deg);
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="%232E5A44"><path d="M383.8 351.7c2.5-2.5 105.2-92.4 105.2-92.4 34.6-32.9 23.4-69.3 23.4-69.3s-14.9-39.7-52.2-30.6c-37.3 9.1-84.8 54.3-84.8 54.3s-40.2 41.2-56.7 34.6c-16.5-6.6-47.5-62.8-47.5-62.8s-22.9-42.9-57.5-42.9c-34.6 0-57.5 42.9-57.5 42.9s-31 56.2-47.5 62.8c-16.5 6.6-56.7-34.6-56.7-34.6s-47.5-45.2-84.8-54.3C-14.9 119.7-29.8 156.4 4.8 189.3c0 0 102.7 89.9 105.2 92.4 2.5 2.5 5.5 15.1 5.5 15.1s-10.7 74.3 12.8 98.7c23.5 24.4 75.3 18.2 75.3 18.2s36.4 17.5 67.9 17.5c31.5 0 67.9-17.5 67.9-17.5s51.8 6.2 75.3-18.2c23.5-24.4 12.8-98.7 12.8-98.7s3-12.6 5.6-15.1z"/></svg>');
+    background-image: url('../images/Leaf.png');
+    opacity: 0.15 !important; /* Blends the dark green leaf into a light watermark */
 }
 
 .decor-top-right {
     top: 10%;
     right: -60px;
     transform: rotate(-45deg) scaleX(-1);
-    background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="%232E5A44"><path d="M383.8 351.7c2.5-2.5 105.2-92.4 105.2-92.4 34.6-32.9 23.4-69.3 23.4-69.3s-14.9-39.7-52.2-30.6c-37.3 9.1-84.8 54.3-84.8 54.3s-40.2 41.2-56.7 34.6c-16.5-6.6-47.5-62.8-47.5-62.8s-22.9-42.9-57.5-42.9c-34.6 0-57.5 42.9-57.5 42.9s-31 56.2-47.5 62.8c-16.5 6.6-56.7-34.6-56.7-34.6s-47.5-45.2-84.8-54.3C-14.9 119.7-29.8 156.4 4.8 189.3c0 0 102.7 89.9 105.2 92.4 2.5 2.5 5.5 15.1 5.5 15.1s-10.7 74.3 12.8 98.7c23.5 24.4 75.3 18.2 75.3 18.2s36.4 17.5 67.9 17.5c31.5 0 67.9-17.5 67.9-17.5s51.8 6.2 75.3-18.2c23.5-24.4 12.8-98.7 12.8-98.7s3-12.6 5.6-15.1z"/></svg>');
+    background-image: url('../images/Leafimg.png');
 }
 
 /* Photo Frames styling */
@@ -1400,8 +1401,16 @@ p {
 .footer-wrapper {
     background-color: #13261c !important; /* Rich Dark Forest Green */
     color: var(--color-white) !important;
-    padding-top: 5.5rem !important;
+    padding-top: 3rem !important;
     padding-bottom: 0 !important;
+}
+
+.footer-wrapper .container {
+    padding-bottom: 1.5rem !important;
+}
+
+.footer-wrapper .row:not(.footer-trust-row) {
+    margin-bottom: 1rem !important;
 }
 
 .footer-logo {
@@ -1497,8 +1506,8 @@ p {
 .footer-trust-row {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 3rem 0 !important;
-    margin-top: 3.5rem !important;
+    padding: 1.5rem 0 !important;
+    margin-top: 1rem !important;
     margin-bottom: 0 !important;
 }
 
@@ -1565,4 +1574,59 @@ p {
         margin-bottom: 1rem !important;
     }
 }
+
+/* 17. Products Search & Filter Section */
+.search-box-wrapper .form-control {
+    border-radius: 50px !important;
+    border: 1.5px solid rgba(46, 90, 68, 0.15) !important;
+    padding-left: 2.75rem !important;
+    background-color: var(--color-white) !important;
+    color: var(--color-dark) !important;
+    font-size: 0.88rem !important;
+    transition: all 0.3s ease !important;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.02) !important;
+}
+
+.search-box-wrapper .form-control:focus {
+    border-color: var(--color-green) !important;
+    box-shadow: 0 4px 12px rgba(46, 90, 68, 0.12) !important;
+    background-color: var(--color-white) !important;
+}
+
+.search-box-wrapper .search-box-icon {
+    font-size: 0.95rem;
+    color: rgba(46, 90, 68, 0.5) !important;
+    transition: all 0.3s ease;
+}
+
+.search-box-wrapper .form-control:focus + .search-box-icon,
+.search-box-wrapper .form-control:focus ~ .search-box-icon {
+    color: var(--color-green) !important;
+}
+
+/* Category Filter Buttons */
+.category-filter-btn {
+    border: 1.5px solid rgba(46, 90, 68, 0.15) !important;
+    background-color: transparent !important;
+    color: rgba(46, 90, 68, 0.75) !important;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    padding: 0.5rem 1.25rem !important;
+    transition: all 0.3s ease !important;
+}
+
+.category-filter-btn:hover {
+    border-color: var(--color-green) !important;
+    color: var(--color-green) !important;
+    transform: translateY(-1px);
+}
+
+.category-filter-btn.active,
+.category-filter-btn.btn-green {
+    background-color: var(--color-green) !important;
+    border-color: var(--color-green) !important;
+    color: var(--color-white) !important;
+    box-shadow: 0 4px 10px rgba(46, 90, 68, 0.2) !important;
+}
+
 

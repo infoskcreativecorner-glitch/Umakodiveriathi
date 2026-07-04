@@ -95,9 +95,9 @@
             <div class="row align-items-center g-3">
                 <!-- Search bar -->
                 <div class="col-md-5">
-                    <div class="input-group">
-                        <span class="input-group-text bg-white border-end-0 border-light-green text-muted"><i class="fa-solid fa-magnifying-glass"></i></span>
-                        <input type="text" id="productSearch" class="form-control border-start-0 border-light-green py-2.5" placeholder="Search products (e.g. Figs, Honey, Garlic)...">
+                    <div class="search-box-wrapper position-relative">
+                        <i class="fa-solid fa-magnifying-glass search-box-icon position-absolute start-0 top-50 translate-middle-y ms-3" style="z-index: 5;"></i>
+                        <input type="text" id="productSearch" class="form-control py-2.5" placeholder="Search products (e.g. Figs, Honey, Garlic)...">
                     </div>
                 </div>
                 <!-- Categories filter -->
@@ -155,7 +155,7 @@
                                 <div class="col-7">
                                     <label class="form-label text-green fw-bold extra-small mb-1">Select Weight</label>
                                     <div class="dropdown w-100">
-                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
+                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
                                             <div class="d-flex align-items-center">
                                                 <span class="text-muted ps-1" style="font-size: 0.75rem;"><i class="fa-solid fa-weight-scale"></i></span>
                                                 <span class="selected-weight-display text-dark ps-2" style="font-size: 0.78rem;">1 Kg - &#8377;400</span>
@@ -231,7 +231,7 @@
                                 <div class="col-7">
                                     <label class="form-label text-green fw-bold extra-small mb-1">Select Weight</label>
                                     <div class="dropdown w-100">
-                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
+                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
                                             <div class="d-flex align-items-center">
                                                 <span class="text-muted ps-1" style="font-size: 0.75rem;"><i class="fa-solid fa-weight-scale"></i></span>
                                                 <span class="selected-weight-display text-dark ps-2" style="font-size: 0.78rem;">1 Kg - &#8377;2500</span>
@@ -307,7 +307,7 @@
                                 <div class="col-7">
                                     <label class="form-label text-green fw-bold extra-small mb-1">Select Weight</label>
                                     <div class="dropdown w-100">
-                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
+                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
                                             <div class="d-flex align-items-center">
                                                 <span class="text-muted ps-1" style="font-size: 0.75rem;"><i class="fa-solid fa-weight-scale"></i></span>
                                                 <span class="selected-weight-display text-dark ps-2" style="font-size: 0.78rem;">1 Kg - &#8377;750</span>
@@ -382,7 +382,7 @@
                                 <div class="col-7">
                                     <label class="form-label text-green fw-bold extra-small mb-1">Select Weight</label>
                                     <div class="dropdown w-100">
-                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
+                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
                                             <div class="d-flex align-items-center">
                                                 <span class="text-muted ps-1" style="font-size: 0.75rem;"><i class="fa-solid fa-weight-scale"></i></span>
                                                 <span class="selected-weight-display text-dark ps-2" style="font-size: 0.78rem;">1 Kg - &#8377;1000</span>
@@ -457,7 +457,7 @@
                                 <div class="col-7">
                                     <label class="form-label text-green fw-bold extra-small mb-1">Select Weight</label>
                                     <div class="dropdown w-100">
-                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
+                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
                                             <div class="d-flex align-items-center">
                                                 <span class="text-muted ps-1" style="font-size: 0.75rem;"><i class="fa-solid fa-weight-scale"></i></span>
                                                 <span class="selected-weight-display text-dark ps-2" style="font-size: 0.78rem;">1 Kg - &#8377;300</span>
@@ -532,7 +532,7 @@
                                 <div class="col-7">
                                     <label class="form-label text-green fw-bold extra-small mb-1">Select Weight</label>
                                     <div class="dropdown w-100">
-                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
+                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
                                             <div class="d-flex align-items-center">
                                                 <span class="text-muted ps-1" style="font-size: 0.75rem;"><i class="fa-solid fa-weight-scale"></i></span>
                                                 <span class="selected-weight-display text-dark ps-2" style="font-size: 0.78rem;">1 Kg - &#8377;800</span>
@@ -607,7 +607,7 @@
                                 <div class="col-7">
                                     <label class="form-label text-green fw-bold extra-small mb-1">Select Weight</label>
                                     <div class="dropdown w-100">
-                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
+                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="cursor: pointer; padding-right: 8px;">
                                             <div class="d-flex align-items-center">
                                                 <span class="text-muted ps-1" style="font-size: 0.75rem;"><i class="fa-solid fa-weight-scale"></i></span>
                                                 <span class="selected-weight-display text-dark ps-2" style="font-size: 0.78rem;">1 Kg - &#8377;1200</span>
@@ -884,12 +884,12 @@
         </div>
     </section>
 
-    <!-- 5. Footer -->
+    <!-- 11. Footer -->
     <footer class="footer-wrapper pt-6">
         <div class="container pb-5">
             <div class="row g-4 mb-5">
                 <!-- Column 1: Brand Info -->
-                <div class="col-lg-3 col-md-6 text-start">
+                <div class="col-lg-3 col-md-6">
                     <div class="d-flex align-items-center mb-3">
                         <img src="assets/images/logo.png" alt="Uma Kodiveri Athi Logo" class="footer-logo me-2" id="footerBrandLogo">
                         <div>
@@ -909,7 +909,7 @@
                 </div>
 
                 <!-- Column 2: Quick Links -->
-                <div class="col-lg-3 col-md-6 text-start">
+                <div class="col-lg-3 col-md-6">
                     <h5 class="footer-heading text-uppercase">Quick Links</h5>
                     <ul class="list-unstyled footer-links-list mb-0">
                         <li><a href="index.html"><i class="fa-solid fa-leaf"></i>Home</a></li>
@@ -921,7 +921,7 @@
                 </div>
 
                 <!-- Column 3: Our Products -->
-                <div class="col-lg-3 col-md-6 text-start">
+                <div class="col-lg-3 col-md-6">
                     <h5 class="footer-heading text-uppercase">Our Products</h5>
                     <ul class="list-unstyled footer-links-list mb-0">
                         <li><a href="products.html"><i class="fa-solid fa-leaf"></i>Fresh Figs</a></li>

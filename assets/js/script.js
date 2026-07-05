@@ -23,6 +23,20 @@ function orderProduct(productName) {
 $(document).ready(function() {
     console.log("Uma Kodiveri Athi brand website is active.");
 
+    // Redirect product cards (click anywhere except selectors/buttons) to detailed product page
+    $(document).on('click', '.product-card', function(e) {
+        // Exclude clicks on interactive elements
+        if ($(e.target).closest('.wishlist-btn, .dropdown, .quantity-pill-counter, .btn-order-whatsapp').length > 0) {
+            return; // Let bootstrap dropdowns, quantity counters, and whatsapp order handles run natively
+        }
+        
+        const card = $(this).closest('.product-item-col');
+        const productId = card.data('product-id');
+        if (productId) {
+            window.location.href = `product-detail.html?id=${productId}`;
+        }
+    });
+
 
 
     // 3. Smooth Scroll for Navbar Links & Closing Mobile Menu

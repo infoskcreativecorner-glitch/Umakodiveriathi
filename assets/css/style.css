@@ -549,7 +549,7 @@ p {
 }
 
 .decor-top-right {
-    top: 10%;
+    top: 24%;
     right: -60px;
     transform: rotate(-45deg) scaleX(-1);
     background-image: url('../images/Leafimg.png');
@@ -1628,5 +1628,23 @@ p {
     color: var(--color-white) !important;
     box-shadow: 0 4px 10px rgba(46, 90, 68, 0.2) !important;
 }
+/* Card interactive cursor & hover triggers */
+.product-card {
+    cursor: pointer;
+}
 
+.product-card .card-title {
+    transition: color 0.2s ease !important;
+}
 
+.product-card:hover .card-title {
+    color: var(--color-green) !important;
+}
+
+/* Except when hovering over interactive selectors/buttons, keep standard pointer/cursor */
+.product-card .wishlist-btn,
+.product-card .dropdown,
+.product-card .quantity-pill-counter,
+.product-card .btn-order-whatsapp {
+    cursor: default;
+}

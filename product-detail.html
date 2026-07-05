@@ -1,0 +1,1302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Uma Kodiveri Athi</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/images/logo-without-bg.png" type="image/x-icon">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <!-- Bootstrap 5 CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    
+    <style>
+        /* Specific detail page styles */
+        .detail-main-img-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 100%; /* Square aspect ratio */
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(46,90,68,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            background: #fff;
+        }
+        .detail-main-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.3s ease-in-out;
+        }
+        .detail-thumbnail-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+        }
+        .detail-thumbnail-img:hover {
+            transform: scale(1.05);
+        }
+        .detail-thumbnail-img.active {
+            border-color: var(--color-green);
+            box-shadow: 0 0 0 3px rgba(46,90,68,0.15);
+        }
+        .detail-nav-btn {
+            width: 36px;
+            height: 36px;
+            background: rgba(255,255,255,0.9);
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            color: var(--color-green);
+            transition: all 0.2s ease;
+        }
+        .detail-nav-btn:hover {
+            background: var(--color-green);
+            color: #fff;
+        }
+        .detail-badge-stamp {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(19, 38, 28, 0.95);
+            color: #fff;
+            padding: 10px;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.6rem;
+            font-weight: 700;
+            line-height: 1.1;
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border: 1px dashed rgba(255,255,255,0.3);
+        }
+        .detail-badge-stamp i {
+            font-size: 0.75rem;
+            color: var(--color-green);
+        }
+        .benefit-grid-item {
+            background-color: var(--color-white);
+            border: 1px solid rgba(46,90,68,0.06);
+            border-radius: 12px;
+            padding: 1rem;
+            height: 100%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+            transition: all 0.2s ease;
+        }
+        .benefit-grid-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(46,90,68,0.04);
+            border-color: rgba(46,90,68,0.12);
+        }
+        .benefit-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background-color: rgba(46, 90, 68, 0.06);
+            color: var(--color-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            margin-right: 12px;
+        }
+        #detailRatingNumber {
+            font-family: var(--font-body) !important;
+            font-weight: 800 !important;
+            letter-spacing: -0.02em;
+        }
+        .rating-bar-fill {
+            height: 8px;
+            background-color: #ffc107;
+            border-radius: 10px;
+        }
+        .rating-bar-bg {
+            height: 8px;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            width: 100%;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .review-card {
+            background-color: var(--color-white);
+            border: 1px solid rgba(0,0,0,0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.01);
+        }
+        .review-avatar-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .spec-badge {
+            background-color: #f7f5ef;
+            color: var(--color-green);
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 1px solid rgba(46,90,68,0.08);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .trust-box-item {
+            border: 1px solid rgba(46,90,68,0.06);
+            background: #fff;
+            padding: 10px 15px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.78rem;
+            color: var(--color-dark);
+            font-weight: 500;
+        }
+        .trust-box-item i {
+            color: var(--color-green);
+            font-size: 1rem;
+        }
+        
+        /* Mobile overrides */
+        @media (max-width: 991.98px) {
+            main .card {
+                padding: 2rem 1.5rem !important;
+            }
+            .trust-box-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 5px;
+                padding: 10px 5px;
+                font-size: 0.7rem;
+            }
+            .trust-box-item i {
+                font-size: 0.9rem;
+            }
+        }
+        @media (max-width: 575.98px) {
+            main .card {
+                padding: 1.25rem 1rem !important;
+            }
+            .display-6 {
+                font-size: 1.8rem !important;
+            }
+            #detailSpecBadges {
+                gap: 5px !important;
+            }
+            .spec-badge {
+                font-size: 0.72rem !important;
+                padding: 4px 8px !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-cream-soft">
+
+    <!-- 1. Header & Navigation -->
+    <header class="navbar-wrapper">
+        <nav class="navbar navbar-expand-lg fixed-top shadow-sm" id="mainNavbar">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="index.html" id="navBrand">
+                    <!-- Brand Logo -->
+                    <img src="assets/images/logo-without-bg.png" alt="Uma Kodiveri Athi Logo" class="brand-logo me-2" id="brandLogo">
+                    <div class="brand-text-container">
+                        <span class="brand-name text-uppercase">UMA KODIVERI ATHI</span>
+                        <span class="brand-tagline d-block text-uppercase">ORIGINAL KODIVERI ATHIPALAM</span>
+                    </div>
+                </a>
+                
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation" id="navbarTogglerBtn">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarContent">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-center">
+                        <li class="nav-item">
+                            <a class="nav-link" href="index.html" id="link-home">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="about.html" id="link-about">About</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="products.html" id="link-products">Products</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="gallery.html" id="link-gallery">Gallery</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="contact.html" id="link-contact">Contact</a>
+                        </li>
+                        <li class="nav-item ms-lg-3 mt-3 mt-lg-0 d-flex gap-2 nav-action-buttons">
+                            <a href="tel:9944140286" class="btn btn-outline-maroon btn-sm px-3 rounded-pill" id="headerCallBtn">
+                                <i class="fa-solid fa-phone me-1"></i> Call Now
+                            </a>
+                            <a href="https://wa.me/919944140286?text=Hi%20Uma%20Kodiveri%20Athi%2C%20I%20want%20to%20know%20more%20about%20your%20products." target="_blank" class="btn btn-green btn-sm px-3 rounded-pill text-white" id="headerWhatsappBtn">
+                                <i class="fa-brands fa-whatsapp me-1"></i> WhatsApp Order
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 2. Breadcrumb / Back Navigation -->
+    <nav class="py-3 bg-white border-bottom">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2">
+                <nav aria-label="breadcrumb" class="mb-0">
+                    <ol class="breadcrumb mb-0" style="font-size: 0.85rem;">
+                        <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none text-green"><i class="fa-solid fa-house me-1"></i>Home</a></li>
+                        <li class="breadcrumb-item"><a href="products.html" class="text-decoration-none text-green">Products</a></li>
+                        <li class="breadcrumb-item active text-muted" aria-current="page" id="breadcrumbActiveProduct">Fresh Figs</li>
+                    </ol>
+                </nav>
+                <a href="products.html" class="btn btn-outline-green btn-sm rounded-pill px-3">
+                    <i class="fa-solid fa-arrow-left me-1.5"></i> Back to Products
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3. Product Info Block -->
+    <main class="py-5">
+        <div class="container">
+            <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white p-4 p-lg-5 mb-5">
+                <div class="row g-5">
+                    
+                    <!-- Left Column: Dynamic Gallery Showcase -->
+                    <div class="col-md-6 col-lg-5">
+                        <div class="detail-main-img-wrapper">
+                            <!-- Natural Badge stamp -->
+                            <div class="detail-badge-stamp">
+                                <i class="fa-solid fa-leaf mb-0.5"></i>
+                                <span>100%</span>
+                                <span>NATURAL</span>
+                            </div>
+                            <!-- Main Photo -->
+                            <img src="assets/images/Fresh Figs/1.png" alt="Product Image" class="detail-main-img" id="detailMainImg">
+                            
+                            <!-- Left/Right controls -->
+                            <button class="btn detail-nav-btn rounded-circle position-absolute top-50 start-0 translate-middle-y ms-3 d-flex align-items-center justify-content-center" id="btnPrevImg" aria-label="Previous image">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </button>
+                            <button class="btn detail-nav-btn rounded-circle position-absolute top-50 end-0 translate-middle-y me-3 d-flex align-items-center justify-content-center" id="btnNextImg" aria-label="Next image">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Thumbnail Row -->
+                        <div class="row g-2 mt-3" id="thumbnailsRow">
+                            <!-- Populated Dynamically -->
+                        </div>
+                    </div>
+                    
+                    <!-- Right Column: Interactive Purchase Console -->
+                    <div class="col-md-6 col-lg-7">
+                        <div class="text-start">
+                            <span class="text-green text-uppercase fw-bold tracking-wider fs-6 d-block mb-1" id="detailSectionSubtitle">Pure & Natural Selection</span>
+                            <h2 class="display-6 text-maroon serif-font mb-1" id="detailProductTitle">Fresh Athipalam (Figs)</h2>
+                            <p class="text-muted italic small-text mb-3" style="font-size: 0.95rem;" id="detailProductTagline">Naturally Sweet. Purely Healthy.</p>
+                            
+                            <!-- Rating overview -->
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="text-warning me-2" style="font-size: 0.9rem;">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <span class="text-dark fw-bold small-text me-1" id="detailRatingVal">4.8</span>
+                                <span class="text-muted extra-small" id="detailReviewCount">(312 Reviews)</span>
+                            </div>
+                            
+                            <!-- Pricing Display -->
+                            <div class="bg-cream-soft rounded-3 p-3 mb-4 border border-light-green d-flex justify-content-between align-items-center">
+                                <div>
+                                    <span class="text-muted extra-small d-block text-uppercase tracking-wide mb-0.5">Price</span>
+                                    <strong class="text-maroon fs-3" id="detailPriceDisplay">&#8377;400.00</strong>
+                                    <span class="text-muted fs-6" id="detailWeightLabel">/ 1 Kg Bag</span>
+                                </div>
+                                <div class="text-end">
+                                    <span class="courier-note text-muted extra-small d-block mb-0.5"><i class="fa-solid fa-truck text-green me-0.5"></i> Courier Charge</span>
+                                    <strong class="text-dark" id="detailCourierDisplay">&#8377;80.00</strong>
+                                    <span class="text-muted extra-small d-block" style="font-size: 0.65rem;">Within Tamil Nadu</span>
+                                </div>
+                            </div>
+                            
+                            <!-- Highlight Badges row -->
+                            <div class="d-flex flex-wrap gap-2 mb-4" id="detailSpecBadges">
+                                <span class="spec-badge"><i class="fa-solid fa-mountain"></i> Freshly Sourced from Hills</span>
+                                <span class="spec-badge"><i class="fa-solid fa-hands"></i> Carefully Handpicked</span>
+                                <span class="spec-badge"><i class="fa-solid fa-truck-ramp-box"></i> Delivered with Care</span>
+                            </div>
+
+                            <!-- Description -->
+                            <p class="text-dark mb-3" style="line-height: 1.6; font-size: 0.95rem;" id="detailDescription">
+                                Our fresh Athipalam (figs) are naturally grown in the pristine hill regions and carefully handpicked for their premium quality and freshness. Enjoy the natural sweetness and goodness in every bite.
+                            </p>
+                            
+                            <!-- Bullet tags list -->
+                            <div class="d-flex flex-wrap gap-3 mb-3" id="detailPropertiesTags">
+                                <span class="text-green small-text fw-bold"><i class="fa-solid fa-circle-check me-1"></i> Rich in Fibre</span>
+                                <span class="text-green small-text fw-bold"><i class="fa-solid fa-circle-check me-1"></i> Natural Energy</span>
+                                <span class="text-green small-text fw-bold"><i class="fa-solid fa-circle-check me-1"></i> Iron Rich</span>
+                            </div>
+
+                            <!-- Selection Options Console -->
+                            <div class="row g-3 align-items-end mb-4 bg-light p-3 rounded-4" style="background-color: #faf9f6 !important; border: 1px solid rgba(0,0,0,0.03);">
+                                <div class="col-sm-6">
+                                    <label class="form-label text-green fw-bold extra-small mb-1.5">Select Weight Option</label>
+                                    <div class="dropdown w-100">
+                                        <div class="input-pill-select d-flex align-items-center justify-content-between w-100 dropdown-toggle bg-white" data-bs-toggle="dropdown" data-bs-display="static" aria-expanded="false" style="cursor: pointer; padding-right: 12px; height: 44px; border-radius: 50px; border: 1.5px solid rgba(46,90,68,0.15);">
+                                            <div class="d-flex align-items-center">
+                                                <span class="text-muted ps-3" style="font-size: 0.85rem;"><i class="fa-solid fa-weight-scale text-green"></i></span>
+                                                <span class="selected-weight-display text-dark ps-2 fw-semibold" style="font-size: 0.85rem;" id="dropdownSelectedWeight">1 Kg - &#8377;400</span>
+                                            </div>
+                                            <span class="dropdown-chevron text-muted" style="font-size: 0.75rem;"><i class="fa-solid fa-chevron-down"></i></span>
+                                        </div>
+                                        <ul class="dropdown-menu w-100 border-light-green shadow-sm rounded-3 py-1" style="font-size: 0.85rem;" id="dropdownWeightsMenu">
+                                            <!-- Dynamically Populated -->
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="form-label text-green fw-bold extra-small mb-1.5">Quantity</label>
+                                    <div class="quantity-pill-counter d-flex align-items-center justify-content-between w-100 bg-white" style="height: 44px; border-radius: 50px; border: 1.5px solid rgba(46,90,68,0.15); padding: 0 10px;">
+                                        <button class="btn btn-qty-action btn-quantity-minus p-0 d-flex align-items-center justify-content-center text-green" style="width: 32px; height: 32px; border-radius: 50%; background: #f0f7f4;" id="detailQtyMinus"><i class="fa-solid fa-minus"></i></button>
+                                        <span class="quantity-value fw-bold text-dark" style="font-size: 0.95rem;" id="detailQtyValue">1</span>
+                                        <button class="btn btn-qty-action btn-quantity-plus p-0 d-flex align-items-center justify-content-center text-green" style="width: 32px; height: 32px; border-radius: 50%; background: #f0f7f4;" id="detailQtyPlus"><i class="fa-solid fa-plus"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- WhatsApp and Call actions buttons -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-sm-6">
+                                    <button class="btn btn-green w-100 py-2.5 rounded-pill shadow-sm d-flex align-items-center justify-content-center text-white fw-bold fs-6" id="btnOrderWhatsapp">
+                                        <i class="fa-brands fa-whatsapp me-2 fs-4"></i> Order on WhatsApp
+                                    </button>
+                                </div>
+                                <div class="col-sm-6">
+                                    <a href="tel:9944140286" class="btn btn-outline-maroon w-100 py-2.5 rounded-pill d-flex align-items-center justify-content-center fw-bold fs-6">
+                                        <i class="fa-solid fa-phone me-2"></i> Call to Order Now
+                                    </a>
+                                </div>
+                            </div>
+
+                            <!-- Trust Icons Box -->
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="trust-box-item justify-content-center">
+                                        <i class="fa-solid fa-circle-check"></i>
+                                        <span>Secure Packaging</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="trust-box-item justify-content-center">
+                                        <i class="fa-solid fa-truck-fast"></i>
+                                        <span>3-5 Days Delivery</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="trust-box-item justify-content-center">
+                                        <i class="fa-solid fa-arrow-rotate-left"></i>
+                                        <span>7 Days Return</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Separator -->
+                <hr class="my-5" style="border-top: 1.5px dashed rgba(46,90,68,0.15); opacity: 1;">
+                
+                <!-- Bottom Row: Benefits Grid & Customer Reviews inside the same card! -->
+                <div class="row g-5">
+                    
+                    <!-- Left Column: Benefits Grid -->
+                    <div class="col-lg-7">
+                        <div class="section-header-left mb-4 text-start">
+                            <span class="text-green text-uppercase fw-bold tracking-wider fs-6 d-block mb-1">Naturally Good</span>
+                            <h3 class="h2 text-maroon serif-font mt-0" id="detailBenefitsTitle">Benefits of Fresh Figs</h3>
+                            <div class="bg-green my-2" style="width: 30px; height: 2px;"></div>
+                        </div>
+                        
+                        <div class="row g-3" id="benefitsContainer">
+                            <!-- Populated Dynamically -->
+                        </div>
+                        <div id="disclaimerContainer" class="mt-4"></div>
+                    </div>
+                    
+                    <!-- Right Column: Customer Reviews -->
+                    <div class="col-lg-5">
+                        <div class="section-header-left mb-4 text-start">
+                            <span class="text-green text-uppercase fw-bold tracking-wider fs-6 d-block mb-1">Verifications</span>
+                            <h3 class="h2 text-maroon serif-font mt-0">Customer Reviews</h3>
+                            <div class="bg-green my-2" style="width: 30px; height: 2px;"></div>
+                        </div>
+                        
+                        <!-- Review Summary stats -->
+                        <div class="row align-items-center g-3 mb-4 bg-cream-soft rounded-3 p-3 border" style="background-color: #faf9f6 !important; border: 1px solid rgba(0,0,0,0.03) !important;">
+                            <div class="col-sm-4 text-center">
+                                <h4 class="display-4 fw-bold text-green mb-0" id="detailRatingNumber">4.8</h4>
+                                <div class="text-warning mb-1" style="font-size: 0.85rem;">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <span class="text-muted extra-small" id="detailReviewTotalText">312 Reviews</span>
+                            </div>
+                            <div class="col-sm-8" style="font-size: 0.78rem;">
+                                <!-- Bar 5 -->
+                                <div class="d-flex align-items-center mb-1">
+                                    <span class="text-muted me-2" style="width: 10px;">5</span>
+                                    <i class="fa-solid fa-star text-warning me-2" style="font-size: 0.65rem;"></i>
+                                    <div class="rating-bar-bg me-2" style="flex-grow: 1;">
+                                        <div class="rating-bar-fill" style="width: 85%;"></div>
+                                    </div>
+                                    <span class="text-muted" style="width: 25px;">248</span>
+                                </div>
+                                <!-- Bar 4 -->
+                                <div class="d-flex align-items-center mb-1">
+                                    <span class="text-muted me-2" style="width: 10px;">4</span>
+                                    <i class="fa-solid fa-star text-warning me-2" style="font-size: 0.65rem;"></i>
+                                    <div class="rating-bar-bg me-2" style="flex-grow: 1;">
+                                        <div class="rating-bar-fill" style="width: 12%;"></div>
+                                    </div>
+                                    <span class="text-muted" style="width: 25px;">42</span>
+                                </div>
+                                <!-- Bar 3 -->
+                                <div class="d-flex align-items-center mb-1">
+                                    <span class="text-muted me-2" style="width: 10px;">3</span>
+                                    <i class="fa-solid fa-star text-warning me-2" style="font-size: 0.65rem;"></i>
+                                    <div class="rating-bar-bg me-2" style="flex-grow: 1;">
+                                        <div class="rating-bar-fill" style="width: 5%;"></div>
+                                    </div>
+                                    <span class="text-muted" style="width: 25px;">16</span>
+                                </div>
+                                <!-- Bar 2 -->
+                                <div class="d-flex align-items-center mb-1">
+                                    <span class="text-muted me-2" style="width: 10px;">2</span>
+                                    <i class="fa-solid fa-star text-warning me-2" style="font-size: 0.65rem;"></i>
+                                    <div class="rating-bar-bg me-2" style="flex-grow: 1;">
+                                        <div class="rating-bar-fill" style="width: 0%;"></div>
+                                    </div>
+                                    <span class="text-muted" style="width: 25px;">0</span>
+                                </div>
+                                <!-- Bar 1 -->
+                                <div class="d-flex align-items-center">
+                                    <span class="text-muted me-2" style="width: 10px;">1</span>
+                                    <i class="fa-solid fa-star text-warning me-2" style="font-size: 0.65rem;"></i>
+                                    <div class="rating-bar-bg me-2" style="flex-grow: 1;">
+                                        <div class="rating-bar-fill" style="width: 0%;"></div>
+                                    </div>
+                                    <span class="text-muted" style="width: 25px;">0</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Reviews List -->
+                        <div id="reviewsContainer">
+                            <!-- Populated Dynamically -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 11. Footer -->
+    <footer class="footer-wrapper pt-6">
+        <div class="container pb-5">
+            <div class="row g-4 mb-5">
+                <!-- Column 1: Brand Info -->
+                <div class="col-lg-3 col-md-6">
+                    <div class="d-flex align-items-center mb-3">
+                        <img src="assets/images/logo.png" alt="Uma Kodiveri Athi Logo" class="footer-logo me-2" id="footerBrandLogo">
+                        <div>
+                            <h4 class="h5 mb-0 serif-font text-uppercase tracking-wider text-white" style="font-size: 1rem;">Uma Kodiveri Athi</h4>
+                            <span class="text-uppercase fw-bold text-muted" style="font-size: 0.55rem; color: #cc6666 !important; letter-spacing: 0.5px;">Original Kodiveri Athipalam</span>
+                        </div>
+                    </div>
+                    <p class="text-white-50 small mb-4" style="line-height: 1.5;">
+                        Bringing you the finest and most natural Athipalam (figs) from the fertile lands of Kodiveri, Erode.
+                    </p>
+                    <div class="d-flex align-items-center">
+                        <a href="https://wa.me/919944140286" target="_blank" class="footer-social-icon" aria-label="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                        <a href="https://www.instagram.com/umakodiveriathi/" target="_blank" class="footer-social-icon" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="footer-social-icon" aria-label="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="contact.html" class="footer-social-icon" aria-label="Location"><i class="fa-solid fa-location-dot"></i></a>
+                    </div>
+                </div>
+
+                <!-- Column 2: Quick Links -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading text-uppercase">Quick Links</h5>
+                    <ul class="list-unstyled footer-links-list mb-0">
+                        <li><a href="index.html"><i class="fa-solid fa-leaf"></i>Home</a></li>
+                        <li><a href="about.html"><i class="fa-solid fa-leaf"></i>About</a></li>
+                        <li><a href="products.html"><i class="fa-solid fa-leaf"></i>Products</a></li>
+                        <li><a href="gallery.html"><i class="fa-solid fa-leaf"></i>Gallery</a></li>
+                        <li><a href="contact.html"><i class="fa-solid fa-leaf"></i>Contact Us</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 3: Our Products -->
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="footer-heading text-uppercase">Our Products</h5>
+                    <ul class="list-unstyled footer-links-list mb-0">
+                        <li><a href="products.html"><i class="fa-solid fa-leaf"></i>Fresh Figs</a></li>
+                        <li><a href="products.html"><i class="fa-solid fa-leaf"></i>Dry Figs</a></li>
+                        <li><a href="products.html"><i class="fa-solid fa-leaf"></i>Fig Jam</a></li>
+                        <li><a href="products.html"><i class="fa-solid fa-leaf"></i>Wild Honey</a></li>
+                        <li><a href="products.html"><i class="fa-solid fa-leaf"></i>Mudavattu Kelangu</a></li>
+                        <li><a href="products.html"><i class="fa-solid fa-leaf"></i>One Head Garlic</a></li>
+                        <li><a href="products.html"><i class="fa-solid fa-leaf"></i>Fig Powder</a></li>
+                    </ul>
+                </div>
+
+                <!-- Column 4: Contact Us -->
+                <div class="col-lg-3 col-md-6 text-start">
+                    <h5 class="footer-heading text-uppercase">Contact Us</h5>
+                    
+                    <div class="footer-contact-item">
+                        <div class="footer-contact-icon">
+                            <i class="fa-solid fa-phone"></i>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-white small">+91 9944140286</span>
+                            <span class="text-white-50 extra-small" style="font-size: 0.72rem;">Call / WhatsApp</span>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-contact-item">
+                        <div class="footer-contact-icon">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-white small">Kodiveri, Erode</span>
+                            <span class="text-white-50 extra-small" style="font-size: 0.72rem;">Tamil Nadu, India - 638454</span>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-contact-item">
+                        <div class="footer-contact-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-white small"><a href="mailto:umakodiveriathi@gmail.com" class="text-white text-decoration-none">umakodiveriathi@gmail.com</a></span>
+                            <span class="text-white-50 extra-small" style="font-size: 0.72rem;">Email Support</span>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-contact-item">
+                        <div class="footer-contact-icon">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-white small">Monday - Sunday</span>
+                            <span class="text-white-50 extra-small" style="font-size: 0.72rem;">8:00 AM - 8:00 PM</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trust Badges Row -->
+            <div class="row footer-trust-row g-3 justify-content-center text-start">
+                <div class="col-sm-6 col-lg-3 border-end border-white-10">
+                    <div class="footer-trust-badge">
+                        <div class="footer-trust-icon-circle">
+                            <i class="fa-solid fa-leaf"></i>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-white small">100% Natural</span>
+                            <span class="text-white-50 extra-small" style="font-size: 0.72rem;">No chemicals or preservatives</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3 border-end border-white-10">
+                    <div class="footer-trust-badge">
+                        <div class="footer-trust-icon-circle">
+                            <i class="fa-solid fa-truck"></i>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-white small">Fast Delivery</span>
+                            <span class="text-white-50 extra-small" style="font-size: 0.72rem;">Courier across Tamil Nadu & India</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3 border-end border-white-10">
+                    <div class="footer-trust-badge">
+                        <div class="footer-trust-icon-circle">
+                            <i class="fa-solid fa-shield-halved"></i>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-white small">Safe Packaging</span>
+                            <span class="text-white-50 extra-small" style="font-size: 0.72rem;">Carefully packed for safe delivery</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-3">
+                    <div class="footer-trust-badge">
+                        <div class="footer-trust-icon-circle">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <span class="d-block fw-bold text-white small">Premium Quality</span>
+                            <span class="text-white-50 extra-small" style="font-size: 0.72rem;">Handpicked with love and care</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Bottom copyright bar -->
+        <div class="footer-bottom-bar py-3">
+            <div class="container d-flex flex-column flex-sm-row justify-content-between align-items-center text-center text-sm-start g-2">
+                <p class="mb-0 text-white-50">&copy; 2025 UMA KODIVERI ATHI. All Rights Reserved.</p>
+                <div class="my-2 my-sm-0">
+                    <a href="#" class="text-white-50 text-decoration-none mx-2 hover-white">Privacy Policy</a>
+                    <span class="text-white-10">|</span>
+                    <a href="#" class="text-white-50 text-decoration-none mx-2 hover-white">Terms & Conditions</a>
+                </div>
+                <p class="mb-0 text-white-50">Made with <i class="fa-solid fa-heart text-danger ms-0.5" style="font-size: 0.75rem;"></i> in Kodiveri</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/919944140286?text=Hi%20Uma%20Kodiveri%20Athi%2C%20I%20have%20an%20inquiry%20regarding%20Athipalam." target="_blank" class="floating-whatsapp shadow-lg d-flex align-items-center justify-content-center" id="floatingWhatsappBtn" aria-label="Order on WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <!-- Bootstrap 5 JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <!-- jQuery CDN -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+
+    <!-- Detailed Page Engine Script -->
+    <script>
+        $(document).ready(function() {
+            // 1. Full Products database mapping
+            const products = {
+                'fresh-figs': {
+                    title: 'Fresh Athipalam (Figs)',
+                    subtitle: 'Pure & Premium Selection',
+                    tagline: 'Naturally Sweet. Purely Healthy.',
+                    description: 'Our fresh Athipalam (figs) are naturally grown in the pristine hill regions and carefully handpicked for their premium quality and freshness. Sourced directly from hill farms and brought to our outlet near Kodiveri Dam, Erode, these figs are rich in nutritional value and natural sugars.',
+                    images: [
+                        'assets/images/Fresh Figs/1.png',
+                        'assets/images/Fresh Figs/2.png',
+                        'assets/images/Fresh Figs/3.png',
+                        'assets/images/Fresh Figs/4.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-mountain', text: 'Freshly Sourced from Hills' },
+                        { icon: 'fa-hands', text: 'Carefully Handpicked' },
+                        { icon: 'fa-truck-ramp-box', text: 'Delivered with Care' }
+                    ],
+                    properties: ['Rich in Fibre', 'Natural Energy', 'Iron Rich'],
+                    weights: [
+                        { name: '250g', price: 120, courier: 50, tag: '250g Pack' },
+                        { name: '500g', price: 200, courier: 60, tag: '500g Bag' },
+                        { name: '1 Kg', price: 400, courier: 80, tag: '1 Kg Bag' },
+                        { name: '2 Kg', price: 780, courier: 80, tag: '2 Kg Basket' }
+                    ],
+                    benefitsTitle: 'Benefits of Fresh Figs',
+                    benefits: [
+                        { icon: 'fa-droplet', title: 'Supports Healthy Hemoglobin', text: 'Fresh figs are naturally rich in nutrients that may support healthy hemoglobin levels as part of a balanced diet.' },
+                        { icon: 'fa-heart-pulse', title: 'Supports Blood Circulation Wellness', text: 'Traditionally valued for nutrients that may support overall circulatory wellness.' },
+                        { icon: 'fa-scale-balanced', title: 'May Support Sugar-Conscious Diets', text: 'Fresh figs can be enjoyed in moderation as part of a balanced diet. People with diabetes should consult a doctor.' },
+                        { icon: 'fa-hand-holding-hand', title: 'Supports Healthy Digestion', text: 'Rich in natural fibre, which may help support digestion and relieve occasional constipation.' },
+                        { icon: 'fa-venus', title: 'Nutritious for Women’s Wellness', text: 'Fresh figs provide natural vitamins and minerals that may support daily nutrition, including during pregnancy with doctor guidance.' },
+                        { icon: 'fa-spa', title: 'Supports General Wellness', text: 'Traditionally used by many people as a nutrient-rich fruit for overall wellness.' },
+                        { icon: 'fa-bolt', title: 'Naturally Rich in Iron & Minerals', text: 'Fresh figs contain naturally occurring nutrients that may support iron intake and daily energy.' }
+                    ],
+                    disclaimer: 'Fresh figs are natural food products, not medicine. They are not intended to diagnose, treat, cure, or prevent any disease. For diabetes, pregnancy, PCOD, cancer, or medical conditions, please consult a doctor before regular use.',
+                    rating: '4.8',
+                    reviewsCount: '306',
+                    reviews: [
+                        { name: 'Anitha S.', rating: 5, verified: true, text: 'Very fresh and sweet figs. Taste is amazing and well packed. Highly recommended!', date: '2 days ago', avatar: 'assets/images/fresh-figs.png' },
+                        { name: 'Karthik M.', rating: 5, verified: true, text: 'Quality is excellent. Delivery was on time and figs are very soft and natural.', date: '5 days ago', avatar: 'assets/images/cut-figs.png' },
+                        { name: 'Priya R.', rating: 5, verified: true, text: 'We eat it daily for health. Freshly delivered directly to Erode. Great product!', date: '1 week ago', avatar: 'assets/images/customer-visit.png' }
+                    ]
+                },
+                'dry-figs': {
+                    title: 'Premium Dry Figs',
+                    subtitle: 'Pure & Dried Sun-Grown Selection',
+                    tagline: 'Premium Sun-Dried. Naturally Sweet.',
+                    description: 'Thoughtfully sun-dried to lock in all natural nutrients, vitamins, and minerals. Our premium dry figs are chewy, sweet, and act as a wonderful healthy snack for daily energy. Hand-selected for uniform size and quality.',
+                    images: [
+                        'assets/images/Dry Figs/1.png',
+                        'assets/images/Dry Figs/2.png',
+                        'assets/images/Dry Figs/3.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-sun', text: '100% Sun-Dried Naturally' },
+                        { icon: 'fa-cubes-stacked', text: 'No Added Sugar' },
+                        { icon: 'fa-prescription-bottle', text: 'Long Shelf Life' }
+                    ],
+                    properties: ['Energy Booster', 'Antioxidant Rich', 'Calcium Source'],
+                    weights: [
+                        { name: '250g', price: 220, courier: 50, tag: '250g Pack' },
+                        { name: '500g', price: 420, courier: 60, tag: '500g Box' },
+                        { name: '1 Kg', price: 800, courier: 80, tag: '1 Kg Bag' }
+                    ],
+                    benefitsTitle: 'Benefits of Dry Figs',
+                    benefits: [
+                        { icon: 'fa-battery-full', title: 'Instant Energy Booster', text: 'Naturally high in sugars that release energy slowly throughout the day.' },
+                        { icon: 'fa-bone', title: 'Supports Bone Strength', text: 'Rich source of calcium which is essential for strong teeth and bones.' },
+                        { icon: 'fa-gauge-high', title: 'Regulates Blood Pressure', text: 'Contains potassium which helps balance sodium levels and relax veins.' },
+                        { icon: 'fa-weight-scale', title: 'Helps in Weight Management', text: 'High fibre content keeps you full longer, reducing unwanted cravings.' }
+                    ],
+                    rating: '4.7',
+                    reviewsCount: '194',
+                    reviews: [
+                        { name: 'Ramanathan K.', rating: 5, verified: true, text: 'Excellent dry figs. Size is big and very clean. Worth the price!', date: '4 days ago', avatar: 'assets/images/dry-figs.png' },
+                        { name: 'Saraswathi A.', rating: 4, verified: true, text: 'Good quality, naturally sweet. Fast delivery within Tamil Nadu.', date: '1 week ago', avatar: 'assets/images/product-packaging.png' }
+                    ]
+                },
+                'fig-jam': {
+                    title: 'Natural Fig Jam',
+                    subtitle: 'Traditionally Cooked Preserves',
+                    tagline: 'Naturally Made with Premium Ingredients',
+                    description: 'Our Fig Jam is prepared using carefully selected figs, pure fig powder, and original wild honey, preserving the authentic taste of nature without artificial preservatives.',
+                    images: [
+                        'assets/images/fig-jam.png',
+                        'assets/images/product-packaging.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-fire-burner', text: 'Traditionally Hand-Cooked' },
+                        { icon: 'fa-bottle-droplet', text: 'Preservative Free' },
+                        { icon: 'fa-apple-whole', text: 'Real Fruit Chunks' }
+                    ],
+                    properties: ['100% Fruit Base', 'Naturally Sweetened', 'Kids Favorite'],
+                    weights: [
+                        { name: '250g', price: 150, courier: 50, tag: '250g Jar' },
+                        { name: '500g', price: 280, courier: 60, tag: '500g Jar' },
+                        { name: '1 Kg', price: 550, courier: 80, tag: '1 Kg Container' }
+                    ],
+                    benefitsTitle: 'Benefits of Natural Fig Jam',
+                    benefits: [
+                        { icon: 'fa-leaf', title: 'Traditional & Natural', text: 'Made using a traditional recipe with premium figs and pure wild honey.' },
+                        { icon: 'fa-jar', title: 'Made with Wild Honey', text: 'Prepared using original wild honey for a rich, natural flavour.' },
+                        { icon: 'fa-heart', title: 'Naturally Rich in Nutrients', text: 'Contains the natural goodness of figs and honey, making it a wholesome addition to your daily diet.' },
+                        { icon: 'fa-ban', title: 'No Added Preservatives', text: 'Prepared without artificial preservatives, colours, or flavours.' },
+                        { icon: 'fa-spoon', title: 'Easy to Enjoy', text: 'Perfect as a spread for bread, chapati, dosa, pancakes, or as a natural topping for desserts.' },
+                        { icon: 'fa-house-chimney', title: 'Easy Storage', text: 'Can be stored at normal room temperature. Keep the lid tightly closed after use.' }
+                    ],
+                    disclaimer: 'This product is a natural food and is not intended to diagnose, treat, cure, or prevent any disease. If you have diabetes or any medical condition, please consult your healthcare professional regarding your dietary choices.',
+                    rating: '4.9',
+                    reviewsCount: '86',
+                    reviews: [
+                        { name: 'Meena Vignesh', rating: 5, verified: true, text: 'My kids love this jam! It has real fig pieces and is not overly sweet.', date: '3 days ago', avatar: 'assets/images/fig-jam.png' }
+                    ]
+                },
+                'fig-powder': {
+                    title: 'Pure Fig Powder',
+                    subtitle: 'Herbal & Wellness Selection',
+                    tagline: '100% Pure & Natural',
+                    description: 'Made from carefully selected premium figs, our Fig Powder is naturally prepared without artificial colours, flavours, or preservatives. It is a convenient way to enjoy the natural goodness of figs every day.',
+                    images: [
+                        'assets/images/fig-powder.png',
+                        'assets/images/product-packaging.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-wind', text: 'Dehydrated at Low Heat' },
+                        { icon: 'fa-mortar-pestle', text: 'Finely Milled powder' },
+                        { icon: 'fa-heart-circle-check', text: 'Preservative Free' }
+                    ],
+                    properties: ['Immunity Support', 'Easy to Mix', 'Zero Additives'],
+                    weights: [
+                        { name: '250g', price: 350, courier: 50, tag: '250g Pack' },
+                        { name: '500g', price: 650, courier: 60, tag: '500g Pack' },
+                        { name: '1 Kg', price: 1200, courier: 80, tag: '1 Kg Pack' }
+                    ],
+                    benefitsTitle: 'Benefits of Pure Fig Powder',
+                    benefits: [
+                        { icon: 'fa-leaf', title: '100% Pure & Natural', text: 'Prepared using premium-quality figs with no added preservatives or artificial ingredients.' },
+                        { icon: 'fa-compress', title: 'Concentrated Natural Goodness', text: 'Approximately 10 kg of fresh figs are carefully processed to produce 1 kg of pure fig powder, helping preserve the fruit\'s natural nutrients.' },
+                        { icon: 'fa-heart', title: 'Rich in Natural Nutrients', text: 'Contains naturally occurring fibre, vitamins, and minerals found in figs, making it a wholesome addition to a balanced diet.' },
+                        { icon: 'fa-glass-water', title: 'Best Enjoyed with Warm Water', text: 'For the best experience, mix the recommended quantity with warm water. (Avoid mixing with milk, as traditionally recommended.)' },
+                        { icon: 'fa-check', title: 'Easy to Include in Your Daily Routine', text: 'A simple and convenient way to enjoy the natural goodness of figs as part of your everyday nutrition.' }
+                    ],
+                    disclaimer: 'Usage Suggestion: Mix 1–2 teaspoons of Fig Powder in a glass of warm water. Stir well and consume as part of a balanced diet. Store in a cool, dry place and keep the container tightly closed after use.',
+                    rating: '4.6',
+                    reviewsCount: '78',
+                    reviews: [
+                        { name: 'Dr. Rajesh Kumar', rating: 5, verified: true, text: 'Very pure fig powder. It dissolves well in warm water and helps immensely with digestion.', date: '1 week ago', avatar: 'assets/images/fig-powder.png' }
+                    ]
+                },
+                'wild-honey': {
+                    title: 'Organic Wild Honey',
+                    subtitle: 'Forest Harvesting Selection',
+                    tagline: '100% Pure Wild Honey',
+                    description: 'Our Wild Honey is carefully collected from natural forest sources, preserving its authentic taste, aroma, and natural goodness without any added sugar or preservatives.',
+                    images: [
+                        'assets/images/wild-honey.png',
+                        'assets/images/product-packaging.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-tree', text: 'Sourced from Forest Hives' },
+                        { icon: 'fa-filter', text: 'Raw & Unfiltered' },
+                        { icon: 'fa-flask-vial', text: 'Zero Sugars Added' }
+                    ],
+                    properties: ['Antiseptic Qualities', 'Rich in Pollens', 'Natural Sweetener'],
+                    weights: [
+                        { name: '500g', price: 320, courier: 60, tag: '500g Bottle' },
+                        { name: '1 Kg', price: 600, courier: 80, tag: '1 Kg Bottle' }
+                    ],
+                    benefitsTitle: 'Benefits of Wild Honey',
+                    benefits: [
+                        { icon: 'fa-leaf', title: '100% Pure & Natural', text: 'Collected from natural sources with no added sugar, colours, flavours, or preservatives.' },
+                        { icon: 'fa-heart', title: 'Rich in Natural Goodness', text: 'Naturally contains beneficial nutrients and antioxidants, making it a wholesome addition to your daily diet.' },
+                        { icon: 'fa-clock-rotate-left', title: 'Traditional Choice', text: 'Wild honey has been enjoyed for generations as a natural sweetener and a part of traditional wellness practices.' },
+                        { icon: 'fa-spoon', title: 'Perfect for Everyday Use', text: 'Enjoy with warm water, herbal drinks, breakfast, or as a natural alternative to refined sugar.' },
+                        { icon: 'fa-box', title: 'Available Quantity', text: 'Available from 500g (Half Kg) onwards.' }
+                    ],
+                    disclaimer: 'Storage Instructions: Store in a cool, dry place. Keep the container tightly closed after use. Natural crystallization may occur over time and does not affect the quality or purity of the honey.',
+                    rating: '4.8',
+                    reviewsCount: '154',
+                    reviews: [
+                        { name: 'Vimal J.', rating: 5, verified: true, text: 'This honey has a beautiful forest aroma. Taste is very distinct from shop honey!', date: '5 days ago', avatar: 'assets/images/wild-honey.png' }
+                    ]
+                },
+                'mudavattu-kelangu': {
+                    title: 'Mudavattu Kelangu (Attukal root)',
+                    subtitle: 'Hills Medicinal Roots Selection',
+                    tagline: 'Traditional Healing Root',
+                    description: 'Mudavattu Kelangu is a traditional root that has been valued for generations and is commonly enjoyed as part of a balanced diet. It is often prepared as a warm, nourishing soup.',
+                    images: [
+                        'assets/images/mudavattu-kelangu.png',
+                        'assets/images/product-packaging.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-mountain-sun', text: 'Wild Mountain Grown' },
+                        { icon: 'fa-hand', text: 'Traditionally Sourced' },
+                        { icon: 'fa-cubes-stacked', text: 'Rich in Minerals' }
+                    ],
+                    properties: ['Rich in Calcium', 'Traditional Root', 'Great for Soup'],
+                    weights: [
+                        { name: '250g', price: 100, courier: 50, tag: '250g Root' },
+                        { name: '500g', price: 150, courier: 60, tag: '500g Root' },
+                        { name: '1 Kg', price: 300, courier: 80, tag: '1 Kg Root' }
+                    ],
+                    benefitsTitle: 'Benefits of Mudavattu Kelangu',
+                    benefits: [
+                        { icon: 'fa-bone', title: 'Naturally Contains Calcium', text: 'A natural source of minerals, including calcium, that contributes to a balanced diet.' },
+                        { icon: 'fa-heart', title: 'Traditionally Valued for Joint Wellness', text: 'Traditionally consumed by many people as part of their everyday wellness routine to support joint and bone health.' },
+                        { icon: 'fa-soup', title: 'Best Enjoyed as Soup', text: 'Traditionally prepared as a warm, comforting soup to enjoy its natural goodness.' },
+                        { icon: 'fa-leaf', title: 'Pure & Naturally Selected', text: 'Carefully selected and packed to preserve freshness and quality.' }
+                    ],
+                    disclaimer: 'Preparation Suggestion: Wash the Mudavattu Kelangu thoroughly. Boil until soft. Prepare it as a traditional soup with your preferred herbs and spices. Enjoy warm as part of a balanced diet.',
+                    rating: '4.7',
+                    reviewsCount: '92',
+                    reviews: [
+                        { name: 'Subramanian S.', rating: 5, verified: true, text: 'I made soup with this root and my knee pain has reduced significantly. Excellent!', date: '3 days ago', avatar: 'assets/images/mudavattu-kelangu.png' }
+                    ]
+                },
+                'one-head-garlic': {
+                    title: 'One Head Garlic (Malai Poondu)',
+                    subtitle: 'Premium Hills Garlic Selection',
+                    tagline: 'Premium One Head Garlic',
+                    description: 'Our premium One Head Garlic is carefully selected for its freshness, strong aroma, and natural quality. It has been traditionally valued as a nutritious ingredient in everyday cooking and wellness practices.',
+                    images: [
+                        'assets/images/one-head-garlic.png',
+                        'assets/images/product-packaging.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-cloud-sun', text: 'High Altitude Grown' },
+                        { icon: 'fa-circle', text: 'Single Clove Concentrated' },
+                        { icon: 'fa-wind', text: 'Strong Natural Aroma' }
+                    ],
+                    properties: ['Allicin Concentrate', 'Digestion Stimulator', 'Immune Shield'],
+                    weights: [
+                        { name: '250g', price: 250, courier: 50, tag: '250g Pack' },
+                        { name: '500g', price: 450, courier: 60, tag: '500g Bag' },
+                        { name: '1 Kg', price: 800, courier: 80, tag: '1 Kg Basket' }
+                    ],
+                    benefitsTitle: 'Benefits of One Head Garlic',
+                    benefits: [
+                        { icon: 'fa-award', title: 'Premium Quality', text: 'Carefully selected for freshness, flavour, and natural quality.' },
+                        { icon: 'fa-heart', title: 'Supports a Healthy Lifestyle', text: 'Traditionally enjoyed as part of a balanced diet and healthy lifestyle.' },
+                        { icon: 'fa-seedling', title: 'Rich in Natural Compounds', text: 'Naturally contains beneficial plant compounds that contribute to everyday nutrition.' },
+                        { icon: 'fa-kitchen-set', title: 'Perfect for Daily Cooking', text: 'Adds a rich aroma and authentic taste to a variety of traditional dishes.' },
+                        { icon: 'fa-truck-flatbed', title: 'Fresh & Naturally Selected', text: 'Free from artificial preservatives and carefully packed to maintain freshness.' }
+                    ],
+                    disclaimer: 'Storage Suggestion: Store in a dry, well-ventilated space at room temperature. Keep away from direct sunlight.',
+                    rating: '4.8',
+                    reviewsCount: '112',
+                    reviews: [
+                        { name: 'Dinesh Kumar', rating: 5, verified: true, text: 'This hill garlic is very powerful! Eating one clove daily in the morning has normalized my digestion.', date: '6 days ago', avatar: 'assets/images/one-head-garlic.png' }
+                    ]
+                },
+                'mudavattu-kelangu-powder': {
+                    title: 'Mudavattu Kelangu Powder',
+                    subtitle: 'Herbal & Powder Selection',
+                    tagline: '100% Pure & Natural Powder',
+                    description: 'Prepared from carefully selected Mudavattu Kelangu using traditional methods, our powder is easy to use while preserving the natural goodness of the root.',
+                    images: [
+                        'assets/images/product-packaging.png',
+                        'assets/images/mudavattu-kelangu.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-wind', text: 'Traditional Mill Milled' },
+                        { icon: 'fa-mortar-pestle', text: 'Easy to Prepare' },
+                        { icon: 'fa-heart-circle-check', text: 'Preservative Free' }
+                    ],
+                    properties: ['Joint Wellness Support', 'Easy to Mix', 'Zero Additives'],
+                    weights: [
+                        { name: '100g', price: 500, courier: 50, tag: '100g Pack' }
+                    ],
+                    benefitsTitle: 'Benefits of Mudavattu Kelangu Powder',
+                    benefits: [
+                        { icon: 'fa-leaf', title: '100% Pure & Natural', text: 'Made from premium-quality Mudavattu Kelangu with no added preservatives, colours, or artificial ingredients.' },
+                        { icon: 'fa-mug-hot', title: 'Easy to Prepare', text: 'Simply mix the recommended quantity with warm water or prepare it as a traditional soup according to your preference.' },
+                        { icon: 'fa-heart', title: 'Traditionally Valued', text: 'Mudavattu Kelangu has been traditionally enjoyed as part of a balanced diet and wellness routine.' },
+                        { icon: 'fa-box', title: 'Available Pack Size', text: 'Available in 100g Pack – ₹500.' }
+                    ],
+                    disclaimer: 'Storage Instructions: Store in a cool, dry place. Keep the container tightly closed after use. Use a dry spoon while handling the powder.',
+                    rating: '4.7',
+                    reviewsCount: '45',
+                    reviews: [
+                        { name: 'Gopalakrishnan V.', rating: 5, verified: true, text: 'This powder is very convenient! Making soup is now very fast and it helps with joint strength.', date: '4 days ago', avatar: 'assets/images/mudavattu-kelangu.png' }
+                    ]
+                },
+                'flaxseed-oil': {
+                    title: 'Flaxseed Oil',
+                    subtitle: 'Pure Cold-Pressed Selection',
+                    tagline: '100% Pure & Natural',
+                    description: 'Our premium Flaxseed Oil is carefully prepared to preserve its natural goodness, making it a versatile addition to both your wellness routine and everyday cooking.',
+                    images: [
+                        'assets/images/product-packaging.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-droplet', text: 'Cold-Pressed Extraction' },
+                        { icon: 'fa-heart', text: 'Rich in Omega-3' },
+                        { icon: 'fa-shield-halved', text: 'Preservative Free' }
+                    ],
+                    properties: ['Rich in Omega-3', 'Skin Nourishment', 'Raw Cold-Pressed'],
+                    weights: [
+                        { name: '250 ml', price: 180, courier: 50, tag: '250 ml Bottle' },
+                        { name: '500 ml', price: 320, courier: 60, tag: '500 ml Bottle' },
+                        { name: '1 Litre', price: 600, courier: 80, tag: '1 Litre Bottle' }
+                    ],
+                    benefitsTitle: 'Benefits of Flaxseed Oil',
+                    benefits: [
+                        { icon: 'fa-sparkles', title: 'Supports Healthy Skin', text: 'Rich in natural Omega-3 fatty acids and antioxidants, Flaxseed Oil is popularly used as part of a skincare routine to help maintain healthy-looking, radiant skin.' },
+                        { icon: 'fa-kitchen-set', title: 'Perfect for Everyday Cooking', text: 'Can be used in salads, drizzled over cooked foods, or incorporated into your daily diet as part of a balanced lifestyle.' },
+                        { icon: 'fa-leaf', title: '100% Pure & Natural', text: 'Prepared from carefully selected flaxseeds with no added preservatives, colours, or artificial ingredients.' },
+                        { icon: 'fa-heart', title: 'Naturally Rich in Omega-3', text: 'A natural source of plant-based Omega-3 fatty acids that support overall nutrition.' }
+                    ],
+                    disclaimer: 'Storage Instructions: Store in a cool, dry place away from direct sunlight. Close the bottle tightly after every use. Refrigerate after opening if recommended on the label.',
+                    rating: '4.8',
+                    reviewsCount: '62',
+                    reviews: [
+                        { name: 'Malini R.', rating: 5, verified: true, text: 'Very high quality cold-pressed oil. I use it for salads and skin massage, it feels so good and fresh.', date: '3 days ago', avatar: 'assets/images/product-packaging.png' }
+                    ]
+                },
+                'neel-avuri': {
+                    title: 'Neel Avuri (Natural Hair Dye)',
+                    subtitle: 'Traditional Hair Care Selection',
+                    tagline: 'Natural Hair Dye',
+                    description: 'Neel Avuri is a traditional herbal hair care product widely used as a natural hair colouring alternative. It is carefully prepared from natural ingredients to help maintain healthy-looking hair.',
+                    images: [
+                        'assets/images/product-packaging.png'
+                    ],
+                    specs: [
+                        { icon: 'fa-mortar-pestle', text: '100% Herbal Powder' },
+                        { icon: 'fa-palette', text: 'Natural Hair Colouring' },
+                        { icon: 'fa-shield-halved', text: 'Chemical Free Formula' }
+                    ],
+                    properties: ['Natural Hair Dye', 'Chemical Free', 'Hair Nourishment'],
+                    weights: [
+                        { name: '100g', price: 150, courier: 50, tag: '100g Pack' },
+                        { name: '250g', price: 320, courier: 50, tag: '250g Pack' },
+                        { name: '500g', price: 600, courier: 60, tag: '500g Pack' }
+                    ],
+                    benefitsTitle: 'Benefits of Neel Avuri',
+                    benefits: [
+                        { icon: 'fa-palette', title: 'Natural Hair Dye', text: 'Traditionally used as a natural plant-based hair colouring option.' },
+                        { icon: 'fa-sparkles', title: 'Gentle on Hair', text: 'Made from natural ingredients and suitable for regular hair care routines.' },
+                        { icon: 'fa-ban', title: 'Free from Harsh Chemicals', text: 'Prepared without artificial colours or harsh chemical additives.' },
+                        { icon: 'fa-check', title: 'Easy to Apply', text: 'For best results, apply to clean, dry hair and follow the recommended application instructions.' },
+                        { icon: 'fa-leaf', title: 'Pure & Naturally Prepared', text: 'Carefully processed to preserve the natural properties of the herb.' }
+                    ],
+                    disclaimer: 'How to Use: Ensure your hair is clean and completely dry. Apply the Neel Avuri mixture evenly from roots to tips. Leave it on for the recommended duration. Rinse thoroughly with water.',
+                    rating: '4.7',
+                    reviewsCount: '38',
+                    reviews: [
+                        { name: 'Sujatha P.', rating: 5, verified: true, text: 'Amazing natural hair dye. Safe to use, with no itching or chemical allergy. Highly satisfied.', date: '5 days ago', avatar: 'assets/images/product-packaging.png' }
+                    ]
+                }
+            };
+
+            // 2. Parse Query Parameter to load correct product
+            const urlParams = new URLSearchParams(window.location.search);
+            let productId = urlParams.get('id');
+            
+            // Fallback to fresh-figs if ID is invalid or missing
+            if (!productId || !products[productId]) {
+                productId = 'fresh-figs';
+            }
+
+            const currentProduct = products[productId];
+            let activeImageIndex = 0;
+            let selectedWeightIndex = currentProduct.weights.findIndex(w => w.name === '1 Kg') !== -1 ? currentProduct.weights.findIndex(w => w.name === '1 Kg') : 0;
+            let qty = 1;
+
+            // 3. Render Product Data
+            function renderProduct() {
+                // Titles and Meta
+                document.title = `${currentProduct.title} | Uma Kodiveri Athi`;
+                $('#breadcrumbActiveProduct').text(currentProduct.title);
+                $('#detailSectionSubtitle').text(currentProduct.subtitle);
+                $('#detailProductTitle').text(currentProduct.title);
+                $('#detailProductTagline').text(currentProduct.tagline);
+                $('#detailDescription').text(currentProduct.description);
+                
+                // Ratings
+                $('#detailRatingVal').text(currentProduct.rating);
+                $('#detailRatingNumber').text(currentProduct.rating);
+                $('#detailReviewCount').text(`(${currentProduct.reviewsCount} Reviews)`);
+                $('#detailReviewTotalText').text(`${currentProduct.reviewsCount} Reviews`);
+
+                // Main Image & Thumbnails
+                updateImage();
+                renderThumbnails();
+
+                // Spec Badges
+                $('#detailSpecBadges').empty();
+                currentProduct.specs.forEach(spec => {
+                    $('#detailSpecBadges').append(`
+                        <span class="spec-badge">
+                            <i class="fa-solid ${spec.icon}"></i> ${spec.text}
+                        </span>
+                    `);
+                });
+
+                // Properties Tags
+                $('#detailPropertiesTags').empty();
+                currentProduct.properties.forEach(prop => {
+                    $('#detailPropertiesTags').append(`
+                        <span class="text-green small-text fw-bold me-3">
+                            <i class="fa-solid fa-circle-check me-1"></i> ${prop}
+                        </span>
+                    `);
+                });
+
+                // Weight Dropdown
+                $('#dropdownWeightsMenu').empty();
+                currentProduct.weights.forEach((wt, idx) => {
+                    const isActive = idx === selectedWeightIndex ? 'active-item' : '';
+                    $('#dropdownWeightsMenu').append(`
+                        <li><a class="dropdown-item py-2 px-3 text-dark ${isActive}" href="#" data-index="${idx}">
+                            ${wt.name} - &#8377;${wt.price}
+                        </a></li>
+                    `);
+                });
+                updatePrice();
+
+                // Benefits Grid
+                $('#detailBenefitsTitle').text(currentProduct.benefitsTitle);
+                $('#benefitsContainer').empty();
+                currentProduct.benefits.forEach(benefit => {
+                    $('#benefitsContainer').append(`
+                        <div class="col-md-6">
+                            <div class="benefit-grid-item d-flex align-items-start">
+                                <div class="benefit-icon-box">
+                                    <i class="fa-solid ${benefit.icon}"></i>
+                                </div>
+                                <div class="text-start">
+                                    <h4 class="h6 fw-bold text-maroon mb-1" style="font-size: 0.88rem;">${benefit.title}</h4>
+                                    <p class="mb-0 text-muted extra-small" style="line-height: 1.4;">${benefit.text}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `);
+                });
+
+                // Render disclaimer note if it exists in product
+                if (currentProduct.disclaimer) {
+                    $('#disclaimerContainer').html(`
+                        <div class="p-3 rounded-3 bg-cream-soft border border-warning-subtle text-start animate-fade-in" style="background-color: #faf8f5 !important; border: 1px solid rgba(230, 92, 0, 0.12) !important;">
+                            <p class="mb-0 text-dark small" style="line-height: 1.5; font-size: 0.82rem;">
+                                <i class="fa-solid fa-circle-info text-warning me-2 align-middle fs-6"></i>
+                                <strong>Note:</strong> ${currentProduct.disclaimer}
+                            </p>
+                        </div>
+                    `);
+                } else {
+                    $('#disclaimerContainer').empty();
+                }
+
+                // Reviews List
+                $('#reviewsContainer').empty();
+                currentProduct.reviews.forEach(review => {
+                    let starsHTML = '';
+                    for (let i = 1; i <= 5; i++) {
+                        starsHTML += `<i class="fa-solid fa-star ${i <= review.rating ? 'text-warning' : 'text-muted-star'}" style="font-size: 0.7rem;"></i>`;
+                    }
+                    
+                    $('#reviewsContainer').append(`
+                        <div class="review-card text-start">
+                            <div class="d-flex align-items-center justify-content-between mb-2">
+                                <div class="d-flex align-items-center gap-2">
+                                    <strong class="text-maroon small-text">${review.name}</strong>
+                                    ${review.verified ? '<span class="badge bg-success-subtle text-success border border-success-subtle py-0.5 px-2 rounded-pill fw-semibold" style="font-size: 0.6rem;"><i class="fa-solid fa-circle-check me-0.5"></i> Verified Buyer</span>' : ''}
+                                </div>
+                                <span class="text-muted extra-small">${review.date}</span>
+                            </div>
+                            <div class="mb-2">
+                                ${starsHTML}
+                            </div>
+                            <p class="text-dark small-text mb-3" style="line-height: 1.5;">${review.text}</p>
+                            ${review.avatar ? `
+                            <div class="mt-2 text-start">
+                                <img src="${review.avatar}" class="review-avatar-img" alt="Review Photo">
+                            </div>` : ''}
+                        </div>
+                    `);
+                });
+            }
+
+            // Image Carousel handlers
+            function updateImage() {
+                const mainImg = $('#detailMainImg');
+                mainImg.css('opacity', '0.2');
+                setTimeout(() => {
+                    mainImg.attr('src', currentProduct.images[activeImageIndex]);
+                    mainImg.css('opacity', '1');
+                }, 150);
+
+                $('.detail-thumbnail-img').removeClass('active');
+                $(`.detail-thumbnail-img[data-index="${activeImageIndex}"]`).addClass('active');
+            }
+
+            function renderThumbnails() {
+                const thumbRow = $('#thumbnailsRow');
+                thumbRow.empty();
+                currentProduct.images.forEach((img, idx) => {
+                    const colSize = currentProduct.images.length === 2 ? 'col-6' : 'col-4';
+                    const activeClass = idx === activeImageIndex ? 'active' : '';
+                    thumbRow.append(`
+                        <div class="${colSize}">
+                            <img src="${img}" class="detail-thumbnail-img ${activeClass}" data-index="${idx}" alt="Thumbnail">
+                        </div>
+                    `);
+                });
+            }
+
+            // Carousel arrow clicks
+            $('#btnPrevImg').on('click', function() {
+                activeImageIndex = (activeImageIndex === 0) ? currentProduct.images.length - 1 : activeImageIndex - 1;
+                updateImage();
+            });
+
+            $('#btnNextImg').on('click', function() {
+                activeImageIndex = (activeImageIndex === currentProduct.images.length - 1) ? 0 : activeImageIndex + 1;
+                updateImage();
+            });
+
+            // Thumbnail click delegates
+            $(document).on('click', '.detail-thumbnail-img', function() {
+                activeImageIndex = parseInt($(this).data('index'));
+                updateImage();
+            });
+
+            // Price calculator logic
+            function updatePrice() {
+                const currentWeight = currentProduct.weights[selectedWeightIndex];
+                const itemTotal = currentWeight.price * qty;
+                const totalCourier = currentWeight.courier;
+
+                $('#detailPriceDisplay').html(`&#8377;${itemTotal.toLocaleString('en-IN')}.00`);
+                $('#detailWeightLabel').text(`/ ${qty > 1 ? qty + ' x ' : ''}${currentWeight.name}`);
+                $('#detailCourierDisplay').html(`&#8377;${totalCourier.toLocaleString('en-IN')}.00`);
+                
+                $('#dropdownSelectedWeight').html(`
+                    <span class="text-green"><i class="fa-solid fa-weight-scale text-green me-1"></i></span>
+                    ${currentWeight.name} - &#8377;${currentWeight.price}
+                `);
+            }
+
+            // Dropdown weight click delegate
+            $(document).on('click', '#dropdownWeightsMenu .dropdown-item', function(e) {
+                e.preventDefault();
+                $('#dropdownWeightsMenu .dropdown-item').removeClass('active-item');
+                $(this).addClass('active-item');
+                selectedWeightIndex = parseInt($(this).data('index'));
+                updatePrice();
+            });
+
+            // Quantity button clicks
+            $('#detailQtyMinus').on('click', function() {
+                if (qty > 1) {
+                    qty--;
+                    $('#detailQtyValue').text(qty);
+                    updatePrice();
+                }
+            });
+
+            $('#detailQtyPlus').on('click', function() {
+                if (qty < 10) {
+                    qty++;
+                    $('#detailQtyValue').text(qty);
+                    updatePrice();
+                }
+            });
+
+            // WhatsApp Order dispatch
+            $('#btnOrderWhatsapp').on('click', function() {
+                const currentWeight = currentProduct.weights[selectedWeightIndex];
+                const itemTotal = currentWeight.price * qty;
+                const courierTotal = currentWeight.courier;
+                const grandTotal = itemTotal + courierTotal;
+                
+                const messageText = `Hi Uma Kodiveri Athi,\n\nI want to order:\n🛒 Product: *${currentProduct.title}*\n⚖️ Weight: *${currentWeight.name}*\n🔢 Quantity: *${qty}*\n💰 Product Total: *₹${itemTotal}*\n🚚 Courier: *₹${courierTotal}* (Within TN)\n⭐ *Grand Total: ₹${grandTotal}*\n\nPlease confirm my order.`;
+                
+                const whatsappUrl = `https://wa.me/919944140286?text=${encodeURIComponent(messageText)}`;
+                window.open(whatsappUrl, '_blank');
+            });
+
+            // Initial render execution
+            renderProduct();
+        });
+    </script>
+</body>
+</html>

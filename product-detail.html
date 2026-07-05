@@ -218,6 +218,25 @@
                 padding: 4px 8px !important;
             }
         }
+        
+        /* Pulsing Skeleton Loader Styles */
+        @keyframes skeleton-pulse {
+            0% {
+                background-color: rgba(46, 90, 68, 0.05);
+            }
+            50% {
+                background-color: rgba(46, 90, 68, 0.12);
+            }
+            100% {
+                background-color: rgba(46, 90, 68, 0.05);
+            }
+        }
+        .skeleton {
+            background-color: rgba(46, 90, 68, 0.05);
+            animation: skeleton-pulse 1.4s infinite ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
     </style>
 </head>
 <body class="bg-cream-soft">
@@ -292,7 +311,53 @@
     <main class="py-5">
         <div class="container">
             <div class="card border-0 shadow-sm rounded-4 overflow-hidden bg-white p-4 p-lg-5 mb-5">
-                <div class="row g-5">
+                <!-- Skeleton Loader layout -->
+                <div id="productDetailSkeleton" class="py-2">
+                    <div class="row g-5">
+                        <div class="col-md-6 col-lg-5">
+                            <div class="skeleton mb-3" style="width: 100%; padding-bottom: 100%; border-radius: 20px;"></div>
+                            <div class="row g-2">
+                                <div class="col-3"><div class="skeleton" style="padding-bottom: 100%; border-radius: 8px;"></div></div>
+                                <div class="col-3"><div class="skeleton" style="padding-bottom: 100%; border-radius: 8px;"></div></div>
+                                <div class="col-3"><div class="skeleton" style="padding-bottom: 100%; border-radius: 8px;"></div></div>
+                                <div class="col-3"><div class="skeleton" style="padding-bottom: 100%; border-radius: 8px;"></div></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-lg-7 text-start">
+                            <div class="skeleton mb-2" style="width: 30%; height: 20px; border-radius: 4px;"></div>
+                            <div class="skeleton mb-3" style="width: 70%; height: 40px; border-radius: 8px;"></div>
+                            <div class="skeleton mb-4" style="width: 45%; height: 25px; border-radius: 4px;"></div>
+                            <div class="skeleton mb-4" style="width: 100%; height: 80px; border-radius: 12px;"></div>
+                            <div class="skeleton mb-3" style="width: 100%; height: 16px; border-radius: 4px;"></div>
+                            <div class="skeleton mb-3" style="width: 95%; height: 16px; border-radius: 4px;"></div>
+                            <div class="skeleton mb-4" style="width: 60%; height: 16px; border-radius: 4px;"></div>
+                            <div class="row g-3 mb-4">
+                                <div class="col-6"><div class="skeleton" style="height: 44px; border-radius: 50px;"></div></div>
+                                <div class="col-6"><div class="skeleton" style="height: 44px; border-radius: 50px;"></div></div>
+                            </div>
+                            <div class="row g-3">
+                                <div class="col-6"><div class="skeleton" style="height: 48px; border-radius: 50px;"></div></div>
+                                <div class="col-6"><div class="skeleton" style="height: 48px; border-radius: 50px;"></div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="my-5" style="border-top: 1.5px dashed rgba(46,90,68,0.15); opacity: 0.5;">
+                    <div class="row g-5 text-start">
+                        <div class="col-lg-7">
+                            <div class="skeleton mb-3" style="width: 50%; height: 35px; border-radius: 6px;"></div>
+                            <div class="skeleton mb-3" style="width: 100%; height: 60px; border-radius: 8px;"></div>
+                            <div class="skeleton mb-3" style="width: 100%; height: 60px; border-radius: 8px;"></div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="skeleton mb-3" style="width: 60%; height: 35px; border-radius: 6px;"></div>
+                            <div class="skeleton" style="width: 100%; height: 140px; border-radius: 12px;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actual Content wrapper (Hidden while loading) -->
+                <div id="productDetailContent" class="d-none">
+                    <div class="row g-5">
                     
                     <!-- Left Column: Dynamic Gallery Showcase -->
                     <div class="col-md-6 col-lg-5">
@@ -536,7 +601,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> <!-- End of #productDetailContent -->
         </div>
     </main>
 
@@ -797,8 +862,10 @@
                     tagline: 'Naturally Made with Premium Ingredients',
                     description: 'Our Fig Jam is prepared using carefully selected figs, pure fig powder, and original wild honey, preserving the authentic taste of nature without artificial preservatives.',
                     images: [
-                        'assets/images/fig-jam.png',
-                        'assets/images/product-packaging.png'
+                        'assets/images/Fig Jam/1.png',
+                        'assets/images/Fig Jam/2.png',
+                        'assets/images/Fig Jam/3.png',
+                        'assets/images/Fig Jam/4.png'
                     ],
                     specs: [
                         { icon: 'fa-fire-burner', text: 'Traditionally Hand-Cooked' },
@@ -833,8 +900,11 @@
                     tagline: '100% Pure & Natural',
                     description: 'Made from carefully selected premium figs, our Fig Powder is naturally prepared without artificial colours, flavours, or preservatives. It is a convenient way to enjoy the natural goodness of figs every day.',
                     images: [
-                        'assets/images/fig-powder.png',
-                        'assets/images/product-packaging.png'
+                        'assets/images/Fig Powder/1.png',
+                        'assets/images/Fig Powder/2.png',
+                        'assets/images/Fig Powder/3.png',
+                        'assets/images/Fig Powder/4.png',
+                        'assets/images/Fig Powder/5.png'
                     ],
                     specs: [
                         { icon: 'fa-wind', text: 'Dehydrated at Low Heat' },
@@ -868,8 +938,9 @@
                     tagline: '100% Pure Wild Honey',
                     description: 'Our Wild Honey is carefully collected from natural forest sources, preserving its authentic taste, aroma, and natural goodness without any added sugar or preservatives.',
                     images: [
-                        'assets/images/wild-honey.png',
-                        'assets/images/product-packaging.png'
+                        'assets/images/Wild Honey/1.png',
+                        'assets/images/Wild Honey/2.png',
+                        'assets/images/Wild Honey/3.png'
                     ],
                     specs: [
                         { icon: 'fa-tree', text: 'Sourced from Forest Hives' },
@@ -902,8 +973,10 @@
                     tagline: 'Traditional Healing Root',
                     description: 'Mudavattu Kelangu is a traditional root that has been valued for generations and is commonly enjoyed as part of a balanced diet. It is often prepared as a warm, nourishing soup.',
                     images: [
-                        'assets/images/mudavattu-kelangu.png',
-                        'assets/images/product-packaging.png'
+                        'assets/images/Mudavattu Kelangu/1.png',
+                        'assets/images/Mudavattu Kelangu/2.png',
+                        'assets/images/Mudavattu Kelangu/3.png',
+                        'assets/images/Mudavattu Kelangu/4.png'
                     ],
                     specs: [
                         { icon: 'fa-mountain-sun', text: 'Wild Mountain Grown' },
@@ -1193,6 +1266,14 @@
                         </div>
                     `);
                 });
+                
+                // Transition out skeleton, fade in populated content
+                setTimeout(() => {
+                    $('#productDetailSkeleton').fadeOut(180, function() {
+                        $(this).addClass('d-none');
+                        $('#productDetailContent').removeClass('d-none').hide().fadeIn(250);
+                    });
+                }, 120);
             }
 
             // Image Carousel handlers

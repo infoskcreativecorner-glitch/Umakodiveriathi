@@ -77,12 +77,7 @@
 
     <!-- 2. Contact Banner Hero -->
     <header class="py-5 bg-white border-bottom position-relative overflow-hidden">
-        <!-- Floating Botanical Leaves background decoration -->
-        <div class="position-absolute opacity-05" style="top: 10px; left: 10px; width: 120px; height: 120px; pointer-events: none;">
-            <svg class="w-100 h-100" fill="var(--color-green)" viewBox="0 0 512 512">
-                <path d="M383.8 351.7c2.5-2.5 105.2-92.4 105.2-92.4 34.6-32.9 23.4-69.3 23.4-69.3s-14.9-39.7-52.2-30.6c-37.3 9.1-84.8 54.3-84.8 54.3s-40.2 41.2-56.7 34.6c-16.5-6.6-47.5-62.8-47.5-62.8s-22.9-42.9-57.5-42.9c-34.6 0-57.5 42.9-57.5 42.9s-31 56.2-47.5 62.8c-16.5 6.6-56.7-34.6-56.7-34.6s-47.5-45.2-84.8-54.3C-14.9 119.7-29.8 156.4 4.8 189.3c0 0 102.7 89.9 105.2 92.4 2.5 2.5 5.5 15.1 5.5 15.1s-10.7 74.3 12.8 98.7c23.5 24.4 75.3 18.2 75.3 18.2s36.4 17.5 67.9 17.5c31.5 0 67.9-17.5 67.9-17.5s51.8 6.2 75.3-18.2c23.5-24.4 12.8-98.7 12.8-98.7s3-12.6 5.6-15.1z"/>
-            </svg>
-        </div>
+
         <div class="container text-center py-3">
             <span class="text-green text-uppercase fw-bold tracking-wider fs-6 d-block mb-2">Get in Touch</span>
             <h1 class="display-4 text-maroon serif-font mb-3">Connect With Us</h1>
@@ -104,7 +99,7 @@
                             <i class="fa-solid fa-house-chimney"></i>
                         </div>
                         <h3 class="h5 card-title text-maroon mb-2 serif-font">Uma Kodiveri Athi</h3>
-                        <p class="card-text text-muted small mb-2">Kodiveri Athipalam Orchard<br>Kodiveri, Erode District,<br>Tamil Nadu, India</p>
+                        <p class="card-text text-muted small mb-2" style="font-size: 0.78rem !important; line-height: 1.45;"><strong>Athipalam Fruit Shop</strong><br>Dam main road, Near Assisi hospital cut,<br>Akkarai kodiveri, Erode - 638454</p>
                         <div class="mt-2 pt-2 border-top border-light" style="font-size: 0.85rem;">
                             <i class="fa-solid fa-envelope text-green me-1.5"></i>
                             <a href="mailto:umakodiveriathi@gmail.com" class="text-maroon fw-semibold text-decoration-none">umakodiveriathi@gmail.com</a>
@@ -263,9 +258,21 @@
                             </div>
 
                             <!-- Bottom Yellow Warning Note Block -->
-                            <div class="alert alert-warning border-0 rounded-3 mt-4 mb-0 text-center py-2 px-3 d-flex align-items-center justify-content-center" style="background-color: #fff9e6; color: #8a6d1c; font-size: 0.72rem; border-left: 4px solid #f0ad4e !important;">
-                                <i class="fa-solid fa-circle-exclamation fs-5 me-2 flex-shrink-0"></i>
-                                <span class="fw-bold">Note: Please send payment screenshot on WhatsApp to verify your order address.</span>
+                            <div class="alert alert-warning border-0 rounded-3 mt-4 mb-3 text-start py-3 px-3" style="background-color: #fff9e6; color: #8a6d1c; font-size: 0.78rem; border-left: 4px solid #f0ad4e !important; line-height: 1.5;">
+                                <div class="mb-2">
+                                    <i class="fa-solid fa-circle-exclamation fs-6 me-2 align-middle" style="color: #c98200;"></i>
+                                    <strong>Important Address Details:</strong> Please send payment screenshot on WhatsApp showing transaction date & ID, along with Full Name, Postal Address with Pincode, and Alternate Mobile Number.
+                                </div>
+                                <div class="mb-0">
+                                    <i class="fa-solid fa-circle-info fs-6 me-2 align-middle text-green"></i>
+                                    <strong>Order Confirmation:</strong> After ledger Booking we send the courier tracking ID for order confirmation.
+                                </div>
+                            </div>
+                            <div class="alert alert-danger border-0 rounded-3 text-start p-3 mb-0" style="background-color: #fff2f2; color: #b30000; font-size: 0.82rem; border-left: 4px solid #cc0000 !important; line-height: 1.5;">
+                                <p class="mb-0">
+                                    <i class="fa-solid fa-heart-pulse me-2 align-middle fs-6"></i>
+                                    <strong>Pregnancy Instructions:</strong> Detailed guidelines will be provided directly after you receive the parcel. (For customers who placed the order for baby planning.)
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -278,45 +285,95 @@
     <section id="location" class="location-section py-5 bg-cream-soft">
         <div class="container">
             <div class="row align-items-center g-5">
-                <div class="col-lg-5" id="locationInfo">
-                    <div class="section-header-left mb-4">
-                        <span class="text-green text-uppercase fw-bold tracking-wider fs-6 d-block mb-2">🌿 Visit Our Kodiveri Outlet</span>
-                        <h2 class="display-5 section-title text-maroon mt-2 serif-font">Visit Us at Kodiveri</h2>
+                    <div class="col-lg-5" id="locationInfo">
+                        <div class="section-header-left mb-4">
+                            <span class="text-green text-uppercase fw-bold tracking-wider fs-6 d-block mb-2">🌿 Our Shop & Farm Locations</span>
+                            <h2 class="display-5 section-title text-maroon mt-2 serif-font">Visit Our Locations</h2>
+                        </div>
+                        
+                        <!-- Location Selection Cards -->
+                        <div class="d-flex flex-column gap-3 mb-4">
+                            <!-- Location 1: Fruit Shop -->
+                            <div class="card location-select-card border border-2 border-success-subtle shadow-sm p-3 rounded-4" style="cursor: pointer; border-left: 5px solid var(--color-green) !important; background-color: var(--color-white);" onclick="switchLocation('shop', 'https://maps.google.com/maps?q=11.462505,77.3049383&z=16&output=embed', 'https://www.google.com/maps/place/11%C2%B027\'45.0%22N+77%C2%B018\'17.8%22E/@11.462505,77.3023634,17z/data=!3m1!4b1!4m4!3m3!8m2!3d11.462505!4d77.3049383')">
+                                <div class="d-flex align-items-start gap-3">
+                                    <div class="text-green fs-4 mt-1"><i class="fa-solid fa-store"></i></div>
+                                    <div class="text-start">
+                                        <h4 class="h6 fw-bold text-maroon mb-1">1. Athipalam Fruit Shop (Main Location)</h4>
+                                        <p class="text-muted mb-0 small" style="line-height: 1.4; font-size: 0.78rem;">
+                                            <strong>K.Umamaheswari</strong>, W/o R.Karuppusamy<br>
+                                            Dam main road, Near Assisi hospital cut,<br>
+                                            Akkarai kodiveri, Erode - 638454
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Location 2: Orchard -->
+                            <div class="card location-select-card border border-light shadow-sm p-3 rounded-4 opacity-75" style="cursor: pointer; border-left: 5px solid transparent !important; background-color: var(--color-white);" onclick="switchLocation('orchard', 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3910.7431267868356!2d77.2922119!3d11.5303766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba91c0fffaaaaaa%3A0x6b245e2c5aa81ba5!2sKodiveri%20Dam!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin', 'https://maps.app.goo.gl/kX1nNocv6b88Lba5A')">
+                                <div class="d-flex align-items-start gap-3">
+                                    <div class="text-green fs-4 mt-1"><i class="fa-solid fa-tree"></i></div>
+                                    <div class="text-start">
+                                        <h4 class="h6 fw-bold text-maroon mb-1">2. Kodiveri Athipalam Orchard (Farm)</h4>
+                                        <p class="text-muted mb-0 small" style="line-height: 1.4; font-size: 0.78rem;">
+                                            Orchard Farm, Near Kodiveri Dam,<br>
+                                            Erode District, Tamil Nadu, India
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-wrap gap-2 location-action-buttons">
+                            <a href="https://www.google.com/maps/place/11%C2%B027\'45.0%22N+77%C2%B018\'17.8%22E/@11.462505,77.3023634,17z/data=!3m1!4b1!4m4!3m3!8m2!3d11.462505!4d77.3049383" target="_blank" class="btn btn-maroon rounded-pill px-4 shadow-sm" id="locationDirectionsBtn">
+                                <i class="fa-solid fa-map-location-dot me-2"></i> Get Direction
+                            </a>
+                            <a href="tel:9944140286" class="btn btn-outline-maroon rounded-pill px-4" id="locationCallBtn">
+                                <i class="fa-solid fa-phone me-2"></i> Call Now
+                            </a>
+                        </div>
                     </div>
-                    <p class="lead text-dark mb-4" style="font-size: 1.1rem; line-height: 1.6;">
-                        Experience the freshness of naturally sourced hill products at Uma Kodiveri Athi. We bring premium Athipalam from the hill regions to our Kodiveri outlet, where you can purchase fresh figs and traditional natural products directly.
-                    </p>
-                    <p class="text-muted mb-4">
-                        Whether you're visiting Kodiveri Dam, Gobichettipalayam, Sathyamangalam, or Erode, stop by and discover our carefully selected products.
-                    </p>
-                    <p class="text-green fw-semibold mb-4" style="font-size: 0.95rem;">
-                        📲 Contact us before your visit to ensure fresh stock is available.
-                    </p>
-                    <div class="d-flex flex-wrap gap-2 location-action-buttons">
-                        <a href="https://maps.app.goo.gl/kX1nNocv6b88Lba5A" target="_blank" class="btn btn-maroon rounded-pill px-4 shadow-sm" id="locationDirectionsBtn">
-                            <i class="fa-solid fa-map-location-dot me-2"></i> Get Direction
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-7" id="locationMap">
-                    <div class="map-container shadow rounded-4 overflow-hidden border border-white border-4" style="height: 380px; position: relative;">
-                        <!-- Google Map Iframe centered around Kodiveri Dam -->
-                        <iframe 
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3910.7431267868356!2d77.2922119!3d11.5303766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ba91c0fffaaaaaa%3A0x6b245e2c5aa81ba5!2sKodiveri%20Dam!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" 
-                            width="100%" 
-                            height="100%" 
-                            style="border:0;" 
-                            allowfullscreen="" 
-                            loading="lazy" 
-                            referrerpolicy="no-referrer-when-downgrade"
-                            title="Uma Kodiveri Athi Location Map"
-                            id="googleMapIframe">
-                        </iframe>
+                    <div class="col-lg-7" id="locationMap">
+                        <div class="map-container shadow rounded-4 overflow-hidden border border-white border-4" style="height: 380px; position: relative;">
+                            <!-- Google Map Iframe centered around default location (Shop) -->
+                            <iframe 
+                                src="https://maps.google.com/maps?q=11.462505,77.3049383&z=16&output=embed" 
+                                width="100%" 
+                                height="100%" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                title="Uma Kodiveri Athi Location Map"
+                                id="googleMapIframe">
+                            </iframe>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
+        <script>
+            function switchLocation(type, embedUrl, directionUrl) {
+                document.getElementById('googleMapIframe').src = embedUrl;
+                document.getElementById('locationDirectionsBtn').href = directionUrl;
+                
+                const cards = document.querySelectorAll('.location-select-card');
+                cards.forEach((card, idx) => {
+                    if (type === 'shop' && idx === 0) {
+                        card.classList.add('border-success-subtle');
+                        card.classList.remove('border-light', 'opacity-75');
+                        card.style.borderLeftColor = 'var(--color-green)';
+                    } else if (type === 'orchard' && idx === 1) {
+                        card.classList.add('border-success-subtle');
+                        card.classList.remove('border-light', 'opacity-75');
+                        card.style.borderLeftColor = 'var(--color-green)';
+                    } else {
+                        card.classList.add('border-light', 'opacity-75');
+                        card.classList.remove('border-success-subtle');
+                        card.style.borderLeftColor = 'transparent';
+                    }
+                });
+            }
+        </script>
 
     <!-- 11. Footer -->
     <footer class="footer-wrapper pt-6">

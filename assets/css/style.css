@@ -26,6 +26,12 @@
 }
 
 /* 2. Global Resets & Typography */
+html, body {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+    width: 100%;
+}
+
 html {
     scroll-behavior: smooth;
     scroll-padding-top: 85px; /* Navbar height compensation */
@@ -37,7 +43,6 @@ body {
     font-family: var(--font-body);
     font-size: 1rem;
     line-height: 1.6;
-    overflow-x: hidden;
 }
 
 h1, h2, h3, h4, h5, h6, .serif-font {
@@ -222,6 +227,20 @@ p {
     background-color: var(--color-green-dark);
     border-color: var(--color-green-dark);
     color: var(--color-white);
+    transform: translateY(-2px);
+}
+
+.btn-outline-green {
+    color: var(--color-green);
+    border: 2px solid var(--color-green);
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+.btn-outline-green:hover,
+.btn-outline-green:focus {
+    background-color: var(--color-green);
+    color: var(--color-white) !important;
     transform: translateY(-2px);
 }
 
@@ -454,6 +473,7 @@ p {
         padding-top: 120px;
         padding-bottom: 40px;
         text-align: center !important;
+        background: linear-gradient(to bottom, rgba(252, 249, 242, 0.6) 0%, rgba(252, 249, 242, 0.4) 100%), url('../images/mobilebg.png') no-repeat center center / cover !important;
     }
     #heroTextColumn {
         text-align: center !important;
@@ -528,31 +548,9 @@ p {
     background-color: var(--color-cream-soft);
 }
 
-/* Background Leaf outlines */
+/* Background Leaf outlines (removed as requested) */
 .about-leaf-decor {
-    position: absolute;
-    width: 280px;
-    height: 280px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    opacity: 0.9;
-    pointer-events: none;
-    z-index: 1;
-}
-
-.decor-top-left {
-    top: 5%;
-    left: -50px;
-    transform: rotate(35deg);
-    background-image: url('../images/Leaf.png');
-    opacity: 0.15 !important; /* Blends the dark green leaf into a light watermark */
-}
-
-.decor-top-right {
-    top: 24%;
-    right: -60px;
-    transform: rotate(-45deg) scaleX(-1);
-    background-image: url('../images/Leafimg.png');
+    display: none !important;
 }
 
 /* Photo Frames styling */
@@ -1648,3 +1646,79 @@ p {
 .product-card .btn-order-whatsapp {
     cursor: default;
 }
+
+/* Instagram Video Card */
+.video-card {
+    height: 280px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 3px solid #ffffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.video-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.video-card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.1) 60%, rgba(0,0,0,0.7) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.25rem;
+    transition: background 0.3s ease;
+}
+
+.video-card:hover .video-card-overlay {
+    background: linear-gradient(to bottom, rgba(131, 58, 180, 0.4) 0%, rgba(253, 29, 29, 0.5) 50%, rgba(252, 176, 69, 0.7) 100%);
+}
+
+.video-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    width: 60px;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #e1306c;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.video-card:hover .video-play-btn {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.video-title {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 0.92rem;
+    margin-bottom: 0.2rem;
+    text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+.video-meta {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.72rem;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+

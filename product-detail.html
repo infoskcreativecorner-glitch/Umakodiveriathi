@@ -3,8 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Details | Uma Kodiveri Athi</title>
+    <title id="seoTitle">Product Details | Uma Kodiveri Athi</title>
     
+    <!-- SEO Meta Tags -->
+    <meta name="description" id="seoDesc" content="Purchase premium natural farm-fresh products, organic figs, wild honey, and herbal powders direct from our Erode orchard.">
+    <meta name="keywords" id="seoKeywords" content="Kodiveri Athipalam, Buy Figs Erode, Wild Honey, Mudavattu Kelangu, Erode organic farm">
+    
+    <!-- Canonical & Manifest -->
+    <link rel="canonical" id="canonicalUrl" href="https://umakodiveriathi.com/product-detail.html">
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="product">
+    <meta property="og:url" id="ogUrl" content="https://umakodiveriathi.com/product-detail.html">
+    <meta property="og:title" id="ogTitle" content="Product Details | Uma Kodiveri Athi">
+    <meta property="og:description" id="ogDesc" content="Purchase premium natural farm-fresh products, organic figs, wild honey, and herbal powders direct from our Erode orchard.">
+    <meta property="og:image" id="ogImage" content="assets/images/logo.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" id="twitterUrl" content="https://umakodiveriathi.com/product-detail.html">
+    <meta property="twitter:title" id="twitterTitle" content="Product Details | Uma Kodiveri Athi">
+    <meta property="twitter:description" id="twitterDesc" content="Purchase premium natural farm-fresh products, organic figs, wild honey, and herbal powders direct from our Erode orchard.">
+    <meta property="twitter:image" id="twitterImage" content="assets/images/logo.png">
+
     <!-- Favicon -->
     <link rel="shortcut icon" href="assets/images/logo-without-bg.png" type="image/x-icon">
 
@@ -390,7 +412,7 @@
                     <div class="col-md-6 col-lg-7">
                         <div class="text-start">
                             <span class="text-green text-uppercase fw-bold tracking-wider fs-6 d-block mb-1" id="detailSectionSubtitle">Pure & Natural Selection</span>
-                            <h2 class="display-6 text-maroon serif-font mb-1" id="detailProductTitle">Fresh Athipalam (Figs)</h2>
+                            <h1 class="display-6 text-maroon serif-font mb-1" id="detailProductTitle">Fresh Athipalam (Figs)</h1>
                             <p class="text-muted italic small-text mb-3" style="font-size: 0.95rem;" id="detailProductTagline">Naturally Sweet. Purely Healthy.</p>
                             
                             <!-- Rating overview -->
@@ -1175,6 +1197,94 @@
                 $('#detailProductTitle').text(currentProduct.title);
                 $('#detailProductTagline').text(currentProduct.tagline);
                 $('#detailDescription').text(currentProduct.description);
+                
+                // Update SEO Description & Open Graph Meta Tags dynamically
+                const productUrl = window.location.href;
+                const productImage = window.location.origin + '/' + currentProduct.images[0];
+                const productDesc = currentProduct.description.substring(0, 160) + '...';
+                
+                $('#seoDesc').attr('content', productDesc);
+                $('#canonicalUrl').attr('href', productUrl);
+                $('#ogTitle').attr('content', `${currentProduct.title} | Uma Kodiveri Athi`);
+                $('#ogDesc').attr('content', productDesc);
+                $('#ogUrl').attr('content', productUrl);
+                $('#ogImage').attr('content', productImage);
+                
+                $('#twitterTitle').attr('content', `${currentProduct.title} | Uma Kodiveri Athi`);
+                $('#twitterDesc').attr('content', productDesc);
+                $('#twitterImage').attr('content', productImage);
+                
+                // Inject Dynamic JSON-LD Product & Breadcrumb Schema
+                $('#dynamicProductSchema').remove();
+                
+                const prices = currentProduct.weights.map(w => w.price);
+                const minPrice = Math.min(...prices);
+                const maxPrice = Math.max(...prices);
+                
+                const schemaData = {
+                  "@context": "https://schema.org",
+                  "@graph": [
+                    {
+                      "@type": "BreadcrumbList",
+                      "itemListElement": [
+                        {
+                          "@type": "ListItem",
+                          "position": 1,
+                          "name": "Home",
+                          "item": "https://umakodiveriathi.com/"
+                        },
+                        {
+                          "@type": "ListItem",
+                          "position": 2,
+                          "name": "Products",
+                          "item": "https://umakodiveriathi.com/products.html"
+                        },
+                        {
+                          "@type": "ListItem",
+                          "position": 3,
+                          "name": currentProduct.title,
+                          "item": productUrl
+                        }
+                      ]
+                    },
+                    {
+                      "@type": "Product",
+                      "@id": productUrl + "#product",
+                      "name": currentProduct.title,
+                      "image": currentProduct.images.map(img => window.location.origin + '/' + img),
+                      "description": currentProduct.description,
+                      "sku": productId,
+                      "mpn": productId,
+                      "brand": {
+                        "@type": "Brand",
+                        "name": "Uma Kodiveri Athi"
+                      },
+                      "offers": {
+                        "@type": "AggregateOffer",
+                        "url": productUrl,
+                        "priceCurrency": "INR",
+                        "lowPrice": minPrice,
+                        "highPrice": maxPrice,
+                        "offerCount": currentProduct.weights.length,
+                        "availability": "https://schema.org/InStock",
+                        "priceValidUntil": "2027-12-31"
+                      },
+                      "aggregateRating": {
+                        "@type": "AggregateRating",
+                        "ratingValue": currentProduct.rating,
+                        "reviewCount": currentProduct.reviewsCount,
+                        "bestRating": "5",
+                        "worstRating": "1"
+                      }
+                    }
+                  ]
+                };
+                
+                const script = document.createElement('script');
+                script.id = 'dynamicProductSchema';
+                script.type = 'application/ld+json';
+                script.text = JSON.stringify(schemaData);
+                document.head.appendChild(script);
                 
                 // Ratings
                 $('#detailRatingVal').text(currentProduct.rating);

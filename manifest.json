@@ -1,0 +1,21 @@
+{
+  "name": "Uma Kodiveri Athi",
+  "short_name": "Kodiveri Athi",
+  "description": "Original Kodiveri Athipalam, Wild Honey, Mudavattu Kelangu, and Natural Remedies from Erode.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#FCF9F2",
+  "theme_color": "#5c1d3b",
+  "icons": [
+    {
+      "src": "assets/images/logo-without-bg.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/images/logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

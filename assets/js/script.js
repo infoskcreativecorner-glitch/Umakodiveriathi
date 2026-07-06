@@ -440,7 +440,7 @@ $(document).ready(function() {
 
     // Scroll to Top Button Injection
     $('body').append(`
-        <a href="#" class="back-to-top shadow-sm d-flex align-items-center justify-content-center" id="backToTopBtn" title="Back to Top">
+        <a href="#" class="back-to-top shadow-sm d-flex align-items-center justify-content-center" id="backToTopBtn" title="Back to Top" aria-label="Scroll back to top">
             <i class="fa-solid fa-chevron-up"></i>
         </a>
     `);

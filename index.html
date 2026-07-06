@@ -11,6 +11,10 @@
     <meta name="author" content="Uma Kodiveri Athi">
     <meta name="robots" content="index, follow">
     
+    <!-- Canonical & Manifest -->
+    <link rel="canonical" href="https://umakodiveriathi.com/">
+    <link rel="manifest" href="manifest.json">
+    
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://umakodiveriathi.com/">
@@ -40,6 +44,64 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <!-- Structured Data Schema -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://umakodiveriathi.com/#website",
+          "url": "https://umakodiveriathi.com/",
+          "name": "Uma Kodiveri Athi",
+          "description": "Original Kodiveri Athipalam, Wild Honey, Mudavattu Kelangu, and Single Bulb Garlic direct from farm near Erode check dam.",
+          "publisher": {
+            "@id": "https://umakodiveriathi.com/#organization"
+          }
+        },
+        {
+          "@type": "LocalBusiness",
+          "@id": "https://umakodiveriathi.com/#organization",
+          "name": "Uma Kodiveri Athi",
+          "image": "https://umakodiveriathi.com/assets/images/logo.png",
+          "url": "https://umakodiveriathi.com/",
+          "telephone": "+919944140286",
+          "priceRange": "$$",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Dam main road, Near Assisi hospital cut, Akkarai kodiveri",
+            "addressLocality": "Erode",
+            "addressRegion": "Tamil Nadu",
+            "postalCode": "638454",
+            "addressCountry": "IN"
+          },
+          "geo": {
+            "@type": "GeoCoordinates",
+            "latitude": 11.5367,
+            "longitude": 77.3486
+          },
+          "openingHoursSpecification": {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday",
+              "Sunday"
+            ],
+            "opens": "07:00",
+            "closes": "21:00"
+          },
+          "sameAs": [
+            "https://www.instagram.com/umakodiveriathi/"
+          ]
+        }
+      ]
+    }
+    </script>
 </head>
 <body>
 
@@ -215,7 +277,7 @@
                         <div class="about-photos-container position-relative">
                             <!-- Main Photo Frame -->
                             <div class="about-photo-frame about-photo-main shadow">
-                                <img src="assets/images/Fresh Figs/1.png" alt="Freshly harvested Kodiveri Athipalam" class="img-fluid rounded-1">
+                                <img src="assets/images/Fresh Figs/1.png" alt="Freshly harvested Kodiveri Athipalam" class="img-fluid rounded-1" loading="lazy">
                                 <!-- Scalloped Badge -->
                                 <div class="scalloped-badge position-absolute shadow-sm">
                                     <i class="fa-solid fa-certificate scalloped-bg-icon"></i>
@@ -228,7 +290,7 @@
                             </div>
                             <!-- Sub Photo Frame (tilted cut figs) -->
                             <div class="about-photo-frame about-photo-sub shadow">
-                                <img src="assets/images/Dry Figs/2.png" alt="Cut fresh Athipalam" class="img-fluid rounded-1">
+                                <img src="assets/images/Dry Figs/2.png" alt="Cut fresh Athipalam" class="img-fluid rounded-1" loading="lazy">
                             </div>
                         </div>
                     </div>

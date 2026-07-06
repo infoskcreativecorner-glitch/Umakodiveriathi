@@ -20,6 +20,65 @@ function orderProduct(productName) {
     window.open(whatsappUrl, '_blank');
 }
 
+// Google Sheets Order Logger Integration
+// Paste your deployed Web App URL here after setting up the Google Apps Script
+const GOOGLE_SHEET_WEBAPP_URL = "https://script.google.com/macros/s/AKfycbxG4wNnCPW5KOdlpJGcBF49rIh3vVD9f01oxgqs0B6nOLatn7j-kOyXOe6lbLV_HVy2fA/exec"; 
+
+function logOrderToGoogleSheet(productName, weight, quantity, totalAmount) {
+    if (!GOOGLE_SHEET_WEBAPP_URL || GOOGLE_SHEET_WEBAPP_URL.includes("YOUR_DEPLOYED_WEBAPP")) {
+        console.log("Order logged locally (Google Sheets Web App URL not configured):", { productName, weight, quantity, totalAmount });
+        return;
+    }
+    
+    var params = new URLSearchParams({
+        sheetName: "Sheet1",
+        formType: "order",
+        product: productName,
+        size: weight,
+        quantity: quantity,
+        total: totalAmount
+    });
+    
+    fetch(GOOGLE_SHEET_WEBAPP_URL + "?" + params.toString(), {
+        method: "GET",
+        mode: "no-cors"
+    })
+    .then(function() {
+        console.log("Order logged to Google Sheets Sheet1 successfully.");
+    })
+    .catch(function(err) {
+        console.error("Error logging order to Google Sheets:", err);
+    });
+}
+
+function logMessageToGoogleSheet(name, phone, email, subject, message) {
+    if (!GOOGLE_SHEET_WEBAPP_URL || GOOGLE_SHEET_WEBAPP_URL.includes("YOUR_DEPLOYED_WEBAPP")) {
+        console.log("Message logged locally (Google Sheets Web App URL not configured):", { name, phone, email, subject, message });
+        return;
+    }
+    
+    var params = new URLSearchParams({
+        sheetName: "Sheet2",
+        formType: "contact",
+        name: name,
+        phone: phone,
+        email: email,
+        subject: subject,
+        message: message
+    });
+    
+    fetch(GOOGLE_SHEET_WEBAPP_URL + "?" + params.toString(), {
+        method: "GET",
+        mode: "no-cors"
+    })
+    .then(function() {
+        console.log("Contact message logged to Google Sheets Sheet2 successfully.");
+    })
+    .catch(function(err) {
+        console.error("Error logging contact message to Google Sheets:", err);
+    });
+}
+
 $(document).ready(function() {
     console.log("Uma Kodiveri Athi brand website is active.");
 
@@ -218,6 +277,7 @@ $(document).ready(function() {
                       "Please share availability and payment details.";
                       
         var encodedMessage = encodeURIComponent(message);
+        logOrderToGoogleSheet(productName, selectedWeight, quantity, totalPrice);
         var whatsappUrl = "https://wa.me/" + phoneNumber + "?text=" + encodedMessage;
         window.open(whatsappUrl, '_blank');
     });
@@ -321,6 +381,7 @@ $(document).ready(function() {
                       "Please share availability and payment details.";
                       
         var encodedMessage = encodeURIComponent(message);
+        logOrderToGoogleSheet(productName, selectedWeight, qty, totalAmount);
         var whatsappUrl = "https://wa.me/" + phoneNumber + "?text=" + encodedMessage;
         window.open(whatsappUrl, '_blank');
     });
@@ -356,4 +417,45 @@ $(document).ready(function() {
             $(this).remove();
         });
     }
+
+    // Contact Form submission handler (Logs details to Sheet2)
+    $(document).on('submit', '#contactForm', function(e) {
+        e.preventDefault();
+        
+        var name = $('#formName').val();
+        var phone = $('#formPhone').val();
+        var email = $('#formEmail').val() || "N/A";
+        var subject = $('#formSubject').val();
+        var message = $('#formMessage').val();
+        
+        // Log to Google Sheet (Sheet2)
+        logMessageToGoogleSheet(name, phone, email, subject, message);
+        
+        // Show premium success toast
+        showToast("Message Sent", "Thank you! Your message has been sent successfully. We will get back to you shortly.");
+        
+        // Reset the form
+        this.reset();
+    });
+
+    // Scroll to Top Button Injection
+    $('body').append(`
+        <a href="#" class="back-to-top shadow-sm d-flex align-items-center justify-content-center" id="backToTopBtn" title="Back to Top">
+            <i class="fa-solid fa-chevron-up"></i>
+        </a>
+    `);
+
+    var backToTop = $('#backToTopBtn');
+    $(window).scroll(function() {
+        if ($(window).scrollTop() > 300) {
+            backToTop.addClass('show');
+        } else {
+            backToTop.removeClass('show');
+        }
+    });
+
+    backToTop.on('click', function(e) {
+        e.preventDefault();
+        $('html, body').animate({ scrollTop: 0 }, 600);
+    });
 });

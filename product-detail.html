@@ -884,7 +884,7 @@
                     benefitsTitle: 'Benefits of Natural Fig Jam',
                     benefits: [
                         { icon: 'fa-leaf', title: 'Traditional & Natural', text: 'Made using a traditional recipe with premium figs and pure wild honey.' },
-                        { icon: 'fa-jar', title: 'Made with Wild Honey', text: 'Prepared using original wild honey for a rich, natural flavour.' },
+                        { icon: 'fa-bottle-droplet', title: 'Made with Wild Honey', text: 'Prepared using original wild honey for a rich, natural flavour.' },
                         { icon: 'fa-heart', title: 'Naturally Rich in Nutrients', text: 'Contains the natural goodness of figs and honey, making it a wholesome addition to your daily diet.' },
                         { icon: 'fa-ban', title: 'No Added Preservatives', text: 'Prepared without artificial preservatives, colours, or flavours.' },
                         { icon: 'fa-spoon', title: 'Easy to Enjoy', text: 'Perfect as a spread for bread, chapati, dosa, pancakes, or as a natural topping for desserts.' },
@@ -1102,7 +1102,7 @@
                     ],
                     benefitsTitle: 'Benefits of Flaxseed Oil',
                     benefits: [
-                        { icon: 'fa-sparkles', title: 'Supports Healthy Skin', text: 'Rich in natural Omega-3 fatty acids and antioxidants, Flaxseed Oil is popularly used as part of a skincare routine to help maintain healthy-looking, radiant skin.' },
+                        { icon: 'fa-spa', title: 'Supports Healthy Skin', text: 'Rich in natural Omega-3 fatty acids and antioxidants, Flaxseed Oil is popularly used as part of a skincare routine to help maintain healthy-looking, radiant skin.' },
                         { icon: 'fa-kitchen-set', title: 'Perfect for Everyday Cooking', text: 'Can be used in salads, drizzled over cooked foods, or incorporated into your daily diet as part of a balanced lifestyle.' },
                         { icon: 'fa-leaf', title: '100% Pure & Natural', text: 'Prepared from carefully selected flaxseeds with no added preservatives, colours, or artificial ingredients.' },
                         { icon: 'fa-heart', title: 'Naturally Rich in Omega-3', text: 'A natural source of plant-based Omega-3 fatty acids that support overall nutrition.' }
@@ -1138,7 +1138,7 @@
                     benefitsTitle: 'Benefits of Neel Avuri',
                     benefits: [
                         { icon: 'fa-palette', title: 'Natural Hair Dye', text: 'Traditionally used as a natural plant-based hair colouring option.' },
-                        { icon: 'fa-sparkles', title: 'Gentle on Hair', text: 'Made from natural ingredients and suitable for regular hair care routines.' },
+                        { icon: 'fa-spa', title: 'Gentle on Hair', text: 'Made from natural ingredients and suitable for regular hair care routines.' },
                         { icon: 'fa-ban', title: 'Free from Harsh Chemicals', text: 'Prepared without artificial colours or harsh chemical additives.' },
                         { icon: 'fa-check', title: 'Easy to Apply', text: 'For best results, apply to clean, dry hair and follow the recommended application instructions.' },
                         { icon: 'fa-leaf', title: 'Pure & Naturally Prepared', text: 'Carefully processed to preserve the natural properties of the herb.' }
@@ -1154,7 +1154,7 @@
 
             // 2. Parse Query Parameter to load correct product
             const urlParams = new URLSearchParams(window.location.search);
-            let productId = urlParams.get('id');
+            let productId = urlParams.get('product') || urlParams.get('id');
             
             // Fallback to fresh-figs if ID is invalid or missing
             if (!productId || !products[productId]) {
@@ -1395,6 +1395,11 @@
                 const grandTotal = itemTotal + courierTotal;
                 
                 const messageText = `Hi Uma Kodiveri Athi,\n\nI want to order:\n🛒 Product: *${currentProduct.title}*\n⚖️ Weight: *${currentWeight.name}*\n🔢 Quantity: *${qty}*\n💰 Product Total: *₹${itemTotal}*\n🚚 Courier: *₹${courierTotal}* (Within TN)\n⭐ *Grand Total: ₹${grandTotal}*\n\nPlease confirm my order.`;
+                
+                // Log order to Google Sheets
+                if (typeof logOrderToGoogleSheet === 'function') {
+                    logOrderToGoogleSheet(currentProduct.title, currentWeight.name, qty, grandTotal);
+                }
                 
                 const whatsappUrl = `https://wa.me/919944140286?text=${encodeURIComponent(messageText)}`;
                 window.open(whatsappUrl, '_blank');

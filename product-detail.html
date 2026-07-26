@@ -819,8 +819,6 @@
                     ],
                     properties: ['Rich in Fibre', 'Natural Energy', 'Iron Rich'],
                     weights: [
-                        { name: '250g', price: 120, courier: 50, tag: '250g Pack' },
-                        { name: '500g', price: 200, courier: 60, tag: '500g Bag' },
                         { name: '1 Kg', price: 400, courier: 80, tag: '1 Kg Bag' },
                         { name: '2 Kg', price: 780, courier: 80, tag: '2 Kg Basket' }
                     ],
@@ -939,8 +937,8 @@
                     ],
                     properties: ['Immunity Support', 'Easy to Mix', 'Zero Additives'],
                     weights: [
-                        { name: '250g', price: 850, courier: 50, tag: '250g Pack' },
-                        { name: '500g', price: 1600, courier: 60, tag: '500g Pack' },
+                        { name: '330g', price: 1000, courier: 60, tag: '330g Pack' },
+                        { name: '500g', price: 1500, courier: 60, tag: '500g Pack' },
                         { name: '1 Kg', price: 3000, courier: 80, tag: '1 Kg Pack' }
                     ],
                     benefitsTitle: 'Benefits of Pure Fig Powder',
@@ -1012,6 +1010,7 @@
                     ],
                     properties: ['Rich in Calcium', 'Traditional Root', 'Great for Soup'],
                     weights: [
+                        { name: '100g', price: 60, courier: 50, tag: '100g Root' },
                         { name: '250g', price: 100, courier: 50, tag: '250g Root' },
                         { name: '500g', price: 150, courier: 60, tag: '500g Root' },
                         { name: '1 Kg', price: 300, courier: 80, tag: '1 Kg Root' }
@@ -1185,7 +1184,7 @@
 
             const currentProduct = products[productId];
             let activeImageIndex = 0;
-            let selectedWeightIndex = currentProduct.weights.findIndex(w => w.name === '1 Kg') !== -1 ? currentProduct.weights.findIndex(w => w.name === '1 Kg') : 0;
+            let selectedWeightIndex = 0;
             let qty = 1;
 
             // 3. Render Product Data

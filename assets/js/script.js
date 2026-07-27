@@ -258,16 +258,20 @@ $(document).ready(function() {
         updateProductPrice(card);
     });
 
-    // Helper to parse weight strings (e.g. "250g", "1 Kg") to kg float value
+    // Helper to parse weight strings (e.g. "250g", "1 Kg", "500 ml") to kg float value
     function parseWeightInKgs(weightString) {
         if (!weightString) return 0;
         var str = weightString.toLowerCase().replace(/\s+/g, '');
-        if (str.includes('kg')) {
-            return parseFloat(str.replace('kg', '')) || 0;
+        if (str.includes('kg') || str.includes('litre') || str.includes('liter') || (str.includes('l') && !str.includes('ml') && !str.includes('g') && !str.includes('m'))) {
+            var val = str.replace('kg', '').replace('litre', '').replace('liter', '');
+            if (val.endsWith('l')) val = val.slice(0, -1);
+            return parseFloat(val) || 0;
         } else if (str.includes('gm')) {
             return (parseFloat(str.replace('gm', '')) || 0) / 1000;
-        } else if (str.includes('g')) {
+        } else if (str.includes('g') && !str.includes('ml')) {
             return (parseFloat(str.replace('g', '')) || 0) / 1000;
+        } else if (str.includes('ml')) {
+            return (parseFloat(str.replace('ml', '')) || 0) / 1000;
         }
         return parseFloat(str) || 0;
     }

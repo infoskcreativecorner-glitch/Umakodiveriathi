@@ -82,6 +82,16 @@ function logMessageToGoogleSheet(name, phone, email, subject, message) {
 $(document).ready(function() {
     console.log("Uma Kodiveri Athi brand website is active.");
 
+    // Initialize prices and courier charges for all product cards and table rows dynamically on page load
+    $('.product-item-col').each(function() {
+        updateProductPrice($(this));
+    });
+    $('table tbody tr').each(function() {
+        if ($(this).find('.table-weight-select-value').length > 0) {
+            updateTableRowPrice($(this));
+        }
+    });
+
     // Redirect product cards (click anywhere except selectors/buttons) to detailed product page
     $(document).on('click', '.product-card', function(e) {
         // Exclude clicks on interactive elements
@@ -248,14 +258,63 @@ $(document).ready(function() {
         updateProductPrice(card);
     });
 
+    // Helper to parse weight strings (e.g. "250g", "1 Kg") to kg float value
+    function parseWeightInKgs(weightString) {
+        if (!weightString) return 0;
+        var str = weightString.toLowerCase().replace(/\s+/g, '');
+        if (str.includes('kg')) {
+            return parseFloat(str.replace('kg', '')) || 0;
+        } else if (str.includes('gm')) {
+            return (parseFloat(str.replace('gm', '')) || 0) / 1000;
+        } else if (str.includes('g')) {
+            return (parseFloat(str.replace('g', '')) || 0) / 1000;
+        }
+        return parseFloat(str) || 0;
+    }
+
+    // Helper to calculate courier charges based on total kgs
+    function calculateCourierCharge(weightString, qty, productId) {
+        var totalKgs = parseWeightInKgs(weightString) * qty;
+        
+        // Special case for Dry Figs
+        if (productId === 'dry-figs' || productId === 'dry figs') {
+            if (totalKgs <= 0.25) return 40;
+            if (totalKgs <= 1.0) return 80;
+            if (totalKgs <= 2.0) return 160;
+            if (totalKgs >= 3 && totalKgs <= 5) return 200;
+            if (totalKgs >= 6 && totalKgs <= 10) return 300;
+            if (totalKgs > 5 && totalKgs < 6) return 250;
+            return 300 + Math.ceil(totalKgs - 10) * 30;
+        }
+
+        if (totalKgs < 3) {
+            return Math.max(80, Math.ceil(totalKgs) * 80);
+        }
+        if (totalKgs >= 3 && totalKgs <= 5) {
+            return 200;
+        }
+        if (totalKgs >= 6 && totalKgs <= 10) {
+            return 300;
+        }
+        if (totalKgs > 5 && totalKgs < 6) {
+            return 250;
+        }
+        return 300 + Math.ceil(totalKgs - 10) * 30;
+    }
+
     // 11. Helper to calculate total price
     function updateProductPrice(card) {
         var hiddenInput = card.find('.product-weight-select-value');
+        var selectedWeight = hiddenInput.val();
         var unitPrice = parseInt(hiddenInput.attr('data-price'));
         var quantity = parseInt(card.find('.quantity-value').text());
+        var productId = card.data('product-id');
+        
         var totalPrice = unitPrice * quantity;
+        var courierCharge = calculateCourierCharge(selectedWeight, quantity, productId);
         
         card.find('.total-price-amount').html('&#8377;' + totalPrice);
+        card.find('.courier-note .fw-bold').html('&#8377;' + courierCharge);
     }
 
     // 12. Dynamic WhatsApp Checkout Order Now Link
@@ -266,18 +325,17 @@ $(document).ready(function() {
         var selectedWeight = hiddenInput.val();
         var unitPrice = parseInt(hiddenInput.attr('data-price'));
         var quantity = parseInt(card.find('.quantity-value').text());
+        var productId = card.data('product-id');
+        
         var totalPrice = unitPrice * quantity;
+        var courierCharge = calculateCourierCharge(selectedWeight, quantity, productId);
+        var grandTotal = totalPrice + courierCharge;
         
         var phoneNumber = "919944140286"; // International format for +91 9944140286
-        var message = "Hi Uma Kodiveri Athi, I want to order:\n" +
-                      "• Product: " + productName + "\n" +
-                      "• Size Selected: " + selectedWeight + "\n" +
-                      "• Quantity: " + quantity + "\n" +
-                      "• Total Price: ₹" + totalPrice + "\n\n" +
-                      "Please share availability and payment details.";
+        var message = "Hi Uma Kodiveri Athi,\n\nI want to order:\n🛒 Product: *" + productName + "*\n⚖️ Weight: *" + selectedWeight + "*\n🔢 Quantity: *" + quantity + "*\n💰 Product Total: *₹" + totalPrice + "*\n🚚 Courier: *₹" + courierCharge + "* (Within TN)\n⭐ *Grand Total: ₹" + grandTotal + "*\n\nPlease confirm my order.";
                       
         var encodedMessage = encodeURIComponent(message);
-        logOrderToGoogleSheet(productName, selectedWeight, quantity, totalPrice);
+        logOrderToGoogleSheet(productName, selectedWeight, quantity, grandTotal);
         var whatsappUrl = "https://wa.me/" + phoneNumber + "?text=" + encodedMessage;
         window.open(whatsappUrl, '_blank');
     });
@@ -336,12 +394,13 @@ $(document).ready(function() {
         var hiddenInput = row.find('.table-weight-select-value');
         var weightVal = hiddenInput.val();
         var unitPrice = parseInt(hiddenInput.attr('data-price'));
-        var unitCourier = parseInt(hiddenInput.attr('data-courier'));
         var qty = parseInt(hiddenInput.attr('data-qty')) || 1;
+        var productName = row.find('.product-table-name').text().trim().toLowerCase();
+        var productId = productName.replace(/\s+/g, '-');
         
         // Calculations
         var totalPrice = unitPrice * qty;
-        var totalCourier = unitCourier * qty;
+        var totalCourier = calculateCourierCharge(weightVal, qty, productId);
         var totalAmount = totalPrice + totalCourier;
         
         // Update display text inside trigger
@@ -365,20 +424,15 @@ $(document).ready(function() {
         
         var selectedWeight = hiddenInput.val();
         var unitPrice = parseInt(hiddenInput.attr('data-price'));
-        var unitCourier = parseInt(hiddenInput.attr('data-courier'));
         var qty = parseInt(hiddenInput.attr('data-qty')) || 1;
+        var productId = productName.trim().toLowerCase().replace(/\s+/g, '-');
         
         var totalPrice = unitPrice * qty;
-        var totalCourier = unitCourier * qty;
+        var totalCourier = calculateCourierCharge(selectedWeight, qty, productId);
         var totalAmount = totalPrice + totalCourier;
         
         var phoneNumber = "919944140286"; // International format for +91 9944140286
-        var message = "Hi Uma Kodiveri Athi, I want to order:\n" +
-                      "• Product: " + productName + "\n" +
-                      "• Size Selected: " + selectedWeight + "\n" +
-                      "• Quantity: " + qty + "\n" +
-                      "• Total Price (with Courier): ₹" + totalAmount + "\n\n" +
-                      "Please share availability and payment details.";
+        var message = "Hi Uma Kodiveri Athi,\n\nI want to order:\n🛒 Product: *" + productName + "*\n⚖️ Weight: *" + selectedWeight + "*\n🔢 Quantity: *" + qty + "*\n💰 Product Total: *₹" + totalPrice + "*\n🚚 Courier: *₹" + totalCourier + "* (Within TN)\n⭐ *Grand Total: ₹" + totalAmount + "*\n\nPlease confirm my order.";
                       
         var encodedMessage = encodeURIComponent(message);
         logOrderToGoogleSheet(productName, selectedWeight, qty, totalAmount);

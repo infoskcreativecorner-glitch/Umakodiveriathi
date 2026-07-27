@@ -820,7 +820,7 @@
                     properties: ['Rich in Fibre', 'Natural Energy', 'Iron Rich'],
                     weights: [
                         { name: '1 Kg', price: 400, courier: 80, tag: '1 Kg Bag' },
-                        { name: '2 Kg', price: 780, courier: 80, tag: '2 Kg Basket' }
+                        { name: '2 Kg', price: 800, courier: 120, tag: '2 Kg Basket' }
                     ],
                     benefitsTitle: 'Benefits of Fresh Figs',
                     benefits: [
@@ -859,9 +859,10 @@
                     ],
                     properties: ['Energy Booster', 'Antioxidant Rich', 'Calcium Source'],
                     weights: [
-                        { name: '250g', price: 220, courier: 50, tag: '250g Pack' },
-                        { name: '500g', price: 420, courier: 60, tag: '500g Box' },
-                        { name: '1 Kg', price: 800, courier: 80, tag: '1 Kg Bag' }
+                        { name: '250g', price: 625, courier: 40, tag: '250g Pack' },
+                        { name: '500g', price: 1250, courier: 80, tag: '500g Box' },
+                        { name: '1 Kg', price: 2500, courier: 80, tag: '1 Kg Bag' },
+                        { name: '2 Kg', price: 5000, courier: 160, tag: '2 Kg Pack' }
                     ],
                     benefitsTitle: 'Benefits of Dry Figs',
                     benefits: [
@@ -922,7 +923,7 @@
                     title: 'Pure Fig Powder',
                     subtitle: 'Herbal & Wellness Selection',
                     tagline: '100% Pure & Natural',
-                    description: 'Made from carefully selected premium figs, our Fig Powder is naturally prepared without artificial colours, flavours, or preservatives. It is a convenient way to enjoy the natural goodness of figs every day.',
+                    description: 'Made from carefully selected premium figs, our Fig Powder is naturally prepared without artificial colours, flavours, or preservatives. It is a convenient way to enjoy the natural goodness of figs every day. *Note: If purchasing for baby planning, we recommend going with the 1 Kg pack.*',
                     images: [
                         'assets/images/Fig Powder/1.png',
                         'assets/images/Fig Powder/2.png',
@@ -949,7 +950,7 @@
                         { icon: 'fa-glass-water', title: 'Best Enjoyed with Warm Water', text: 'For the best experience, mix the recommended quantity with warm water. (Avoid mixing with milk, as traditionally recommended.)' },
                         { icon: 'fa-check', title: 'Easy to Include in Your Daily Routine', text: 'A simple and convenient way to enjoy the natural goodness of figs as part of your everyday nutrition.' }
                     ],
-                    disclaimer: 'Usage Suggestion: Mix 1–2 teaspoons of Fig Powder in a glass of warm water. Stir well and consume as part of a balanced diet. Store in a cool, dry place and keep the container tightly closed after use. Important Note: As traditionally recommended, do not consume milk or dairy items immediately after taking fig powder.',
+                    disclaimer: 'Usage Suggestion: Mix 1–2 teaspoons of Fig Powder in a glass of warm water. Stir well and consume as part of a balanced diet. Store in a cool, dry place and keep the container tightly closed after use. Note: If purchasing for baby planning, we recommend choosing the 1 Kg pack. Important Note: As traditionally recommended, do not consume milk or dairy items immediately after taking fig powder.',
                     rating: '4.6',
                     reviewsCount: '78',
                     reviews: [
@@ -974,8 +975,8 @@
                     ],
                     properties: ['Antiseptic Qualities', 'Rich in Pollens', 'Natural Sweetener'],
                     weights: [
-                        { name: '500g', price: 320, courier: 60, tag: '500g Bottle' },
-                        { name: '1 Kg', price: 600, courier: 80, tag: '1 Kg Bottle' }
+                        { name: '500g', price: 500, courier: 60, tag: '500g Bottle' },
+                        { name: '1 Kg', price: 1000, courier: 80, tag: '1 Kg Bottle' }
                     ],
                     benefitsTitle: 'Benefits of Wild Honey',
                     benefits: [
@@ -1010,10 +1011,8 @@
                     ],
                     properties: ['Rich in Calcium', 'Traditional Root', 'Great for Soup'],
                     weights: [
-                        { name: '100g', price: 60, courier: 50, tag: '100g Root' },
-                        { name: '250g', price: 100, courier: 50, tag: '250g Root' },
-                        { name: '500g', price: 150, courier: 60, tag: '500g Root' },
-                        { name: '1 Kg', price: 300, courier: 80, tag: '1 Kg Root' }
+                        { name: '1 Kg', price: 300, courier: 80, tag: '1 Kg Root' },
+                        { name: '2 Kg', price: 600, courier: 120, tag: '2 Kg Root' }
                     ],
                     benefitsTitle: 'Benefits of Mudavattu Kelangu',
                     benefits: [
@@ -1454,11 +1453,55 @@
                 updateImage();
             });
 
+            // Helper to parse weight strings (e.g. "250g", "1 Kg") to kg float value
+            function parseWeightInKgs(weightString) {
+                if (!weightString) return 0;
+                var str = weightString.toLowerCase().replace(/\s+/g, '');
+                if (str.includes('kg')) {
+                    return parseFloat(str.replace('kg', '')) || 0;
+                } else if (str.includes('gm')) {
+                    return (parseFloat(str.replace('gm', '')) || 0) / 1000;
+                } else if (str.includes('g')) {
+                    return (parseFloat(str.replace('g', '')) || 0) / 1000;
+                }
+                return parseFloat(str) || 0;
+            }
+
+            // Helper to calculate courier charges based on total kgs
+            function calculateCourierCharge(weightString, qty, productId) {
+                var totalKgs = parseWeightInKgs(weightString) * qty;
+                
+                // Special case for Dry Figs
+                if (productId === 'dry-figs' || productId === 'dry figs') {
+                    if (totalKgs <= 0.25) return 40;
+                    if (totalKgs <= 1.0) return 80;
+                    if (totalKgs <= 2.0) return 160;
+                    if (totalKgs >= 3 && totalKgs <= 5) return 200;
+                    if (totalKgs >= 6 && totalKgs <= 10) return 300;
+                    if (totalKgs > 5 && totalKgs < 6) return 250;
+                    return 300 + Math.ceil(totalKgs - 10) * 30;
+                }
+
+                if (totalKgs < 3) {
+                    return Math.max(80, Math.ceil(totalKgs) * 80);
+                }
+                if (totalKgs >= 3 && totalKgs <= 5) {
+                    return 200;
+                }
+                if (totalKgs >= 6 && totalKgs <= 10) {
+                    return 300;
+                }
+                if (totalKgs > 5 && totalKgs < 6) {
+                    return 250;
+                }
+                return 300 + Math.ceil(totalKgs - 10) * 30;
+            }
+
             // Price calculator logic
             function updatePrice() {
                 const currentWeight = currentProduct.weights[selectedWeightIndex];
                 const itemTotal = currentWeight.price * qty;
-                const totalCourier = currentWeight.courier;
+                const totalCourier = calculateCourierCharge(currentWeight.name, qty, currentProduct.id);
 
                 $('#detailPriceDisplay').html(`&#8377;${itemTotal.toLocaleString('en-IN')}.00`);
                 $('#detailWeightLabel').text(`/ ${qty > 1 ? qty + ' x ' : ''}${currentWeight.name}`);
@@ -1500,7 +1543,7 @@
             $('#btnOrderWhatsapp').on('click', function() {
                 const currentWeight = currentProduct.weights[selectedWeightIndex];
                 const itemTotal = currentWeight.price * qty;
-                const courierTotal = currentWeight.courier;
+                const courierTotal = calculateCourierCharge(currentWeight.name, qty, currentProduct.id);
                 const grandTotal = itemTotal + courierTotal;
                 
                 const messageText = `Hi Uma Kodiveri Athi,\n\nI want to order:\n🛒 Product: *${currentProduct.title}*\n⚖️ Weight: *${currentWeight.name}*\n🔢 Quantity: *${qty}*\n💰 Product Total: *₹${itemTotal}*\n🚚 Courier: *₹${courierTotal}* (Within TN)\n⭐ *Grand Total: ₹${grandTotal}*\n\nPlease confirm my order.`;
